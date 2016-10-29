@@ -5,7 +5,7 @@ unit settingsUnit;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ColorBox,
+  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs,
   StdCtrls, IniFiles;
 
 type

@@ -5,7 +5,8 @@ unit addNewManGrpUnit;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls;
+  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
+  ExtCtrls;
 
 const
   countManGrp = 4;
@@ -13,7 +14,8 @@ type
   { TaddNewManGrpForm }
   TaddNewManGrpForm = class(TForm)
     btnSaveManGrp: TButton;
-    nameManGrpEdit: TEdit;
+    NameGroupManLabeledEdit: TLabeledEdit;
+    NameManGroup: TBoundLabel;
     procedure btnSaveManGrpClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
   private
@@ -39,7 +41,7 @@ implementation
 procedure TaddNewManGrpForm.btnSaveManGrpClick(Sender: TObject);
 begin
   numManGrp:=numManGrp+1;
-  grpManArr[numManGrp].nameGrp:=nameManGrpEdit.Text;
+  grpManArr[numManGrp].nameGrp:=NameGroupManLabeledEdit.Text;
   close;
 end;
 

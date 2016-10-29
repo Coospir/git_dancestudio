@@ -26,7 +26,7 @@
     <RunParams>
       <local>
         <FormatVersion Value="1"/>
-        <HostApplicationFilename Value="D:\COLLEGE\КУРСОВИК\DanceStudio.exe"/>
+        <HostApplicationFilename Value="D:\COLLEGE\DANCE STUDIO old version\DanceStudio.exe"/>
       </local>
     </RunParams>
     <RequiredPackages Count="2">
@@ -37,7 +37,7 @@
         <PackageName Value="LCL"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="6">
+    <Units Count="9">
       <Unit0>
         <Filename Value="DanceStudio.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -78,9 +78,27 @@
         <Filename Value="addnewteacherunit.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="addNewTeacherForm"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="addNewTeacherUnit"/>
       </Unit5>
+      <Unit6>
+        <Filename Value="childlistgrp.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="childListGrp"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="childlistgrpunit.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="tableteacherunit.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="TableTeachersForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="tableTeacherUnit"/>
+      </Unit8>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

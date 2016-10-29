@@ -5,7 +5,8 @@ unit addNewChildGrpUnit;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls;
+  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
+  ExtCtrls, addNewTeacherUnit;
 
 const countChildGrp = 4;
 
@@ -13,7 +14,9 @@ type
   { TaddNewChildGrpForm }
   TaddNewChildGrpForm = class(TForm)
     btnSaveChildGrp: TButton;
-    nameChildGrpEdit: TEdit;
+    ComboBox1: TComboBox;
+    NameChildGroup: TBoundLabel;
+    NameGroupChildLabeledEdit: TLabeledEdit;
     procedure btnSaveChildGrpClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
   private
@@ -40,7 +43,8 @@ implementation
 procedure TaddNewChildGrpForm.btnSaveChildGrpClick(Sender: TObject);
 begin
   numChildGrp:=numChildGrp+1;
-  grpChildArr[numChildGrp].nameGrp:=nameChildGrpEdit.Text;
+  grpChildArr[numChildGrp].nameGrp:=NameGroupChildLabeledEdit.Text;
+  ComboBox1.AddItem(TeacherArray[countTeachers].TeacherName, NIL);
   close;
 end;
 
