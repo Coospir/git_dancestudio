@@ -5,8 +5,8 @@ unit MainMenu;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, Menus,
-  StdCtrls, ExtCtrls, IniFiles, addNewManGrpUnit,
+  Classes, SysUtils, FileUtil, DateTimePicker, Forms, Controls, Graphics,
+  Dialogs, Menus, StdCtrls, ExtCtrls, ComCtrls, IniFiles, addNewManGrpUnit,
   addNewChildGrpUnit, addNewTeacherUnit, settingsUnit, tableTeacherUnit;
 
 type
@@ -14,6 +14,9 @@ type
   { TMainForm }
 
   TMainForm = class(TForm)
+    DateTimePicker1: TDateTimePicker;
+    CreateMemoPanel: TGroupBox;
+    MemoWindow: TMemo;
     restartStat: TButton;
     StatisticGrpBox: TGroupBox;
     manGrpStatistic: TLabel;
@@ -64,7 +67,7 @@ implementation
 procedure TMainForm.FormCreate(Sender: TObject);
 begin
   try
-    IniFile:=TIniFile.Create('settings.ini*');
+    IniFile:=TIniFile.Create('settings.ini');
     MainForm.Color:=IniFile.ReadInteger('COLOR','MAINFORMCOLOR',MAINFORM.COLOR);
     IniFile.ReadInteger('MAINFORM','MAINFORMWIDTH',MAINFORM.Width);
     IniFile.ReadInteger('MAINFORM','MAINFORMHEIGHT',MAINFORM.Height);

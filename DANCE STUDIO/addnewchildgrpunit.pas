@@ -14,11 +14,13 @@ type
   { TaddNewChildGrpForm }
   TaddNewChildGrpForm = class(TForm)
     btnSaveChildGrp: TButton;
-    ComboBox1: TComboBox;
+    changeTeacherChildGrp: TComboBox;
     NameChildGroup: TBoundLabel;
     NameGroupChildLabeledEdit: TLabeledEdit;
     procedure btnSaveChildGrpClick(Sender: TObject);
+    procedure changeTeacherChildGrpChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
     { private declarations }
   public
@@ -44,14 +46,24 @@ procedure TaddNewChildGrpForm.btnSaveChildGrpClick(Sender: TObject);
 begin
   numChildGrp:=numChildGrp+1;
   grpChildArr[numChildGrp].nameGrp:=NameGroupChildLabeledEdit.Text;
-  ComboBox1.AddItem(TeacherArray[countTeachers].TeacherName, NIL);
   close;
 end;
+
+procedure TaddNewChildGrpForm.changeTeacherChildGrpChange(Sender: TObject);
+begin
+
+end;
+
 
 procedure TaddNewChildGrpForm.FormCreate(Sender: TObject);
 begin
   Left:=0;
   Top:=0;
+end;
+
+procedure TaddNewChildGrpForm.FormShow(Sender: TObject);
+begin
+  changeTeacherChildGrp.AddItem(TeacherArray[countTeachers].TeacherName, NIL);
 end;
 
 end.

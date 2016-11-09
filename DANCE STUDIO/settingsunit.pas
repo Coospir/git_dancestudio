@@ -45,7 +45,7 @@ end;
   begin
     try
       MainForm.Color:=ColorButton1.ButtonColor;
-      IniFile:= TIniFile.Create('D:\settings.ini');
+      IniFile:= TIniFile.Create('settings.ini');
       IniFile.WriteInteger('COLOR','MAINFORMCOLOR',COLORBUTTON1.BUTTONCOLOR);
       IniFile.Free;
       Close;
