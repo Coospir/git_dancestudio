@@ -5,7 +5,7 @@ unit tableTeacherUnit;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, ExtendedNotebook, Forms, Controls, Graphics,
+  Classes, SysUtils, FileUtil, Forms, Controls, Graphics,
   Dialogs, StdCtrls, ActnList, ComCtrls, addNewTeacherUnit;
 
 type
@@ -13,10 +13,15 @@ type
   { TTableTeachersForm }
 
   TTableTeachersForm = class(TForm)
-    ListView1: TListView;
+    delTeacher: TButton;
+    TeacherListView: TListView;
+    procedure delTeacherClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure ListBox1Click(Sender: TObject);
-    procedure ListBox1SelectionChange(Sender: TObject; User: boolean);
+    procedure TeacherListViewDragDrop(Sender, Source: TObject; X, Y: Integer);
+    procedure TeacherListViewDragOver(Sender, Source: TObject; X, Y: Integer;
+      State: TDragState; var Accept: Boolean);
+    procedure TeacherListViewSelectItem(Sender: TObject; Item: TListItem;
+      Selected: Boolean);
   private
     { private declarations }
   public
@@ -27,6 +32,7 @@ var
   TableTeachersForm: TTableTeachersForm;
   Item : TListItem;
 implementation
+uses MainMenu, addNewChildGrpUnit;
 
 {$R *.lfm}
 
@@ -40,7 +46,7 @@ begin
   Top:=0;
   for i:=1 to countTeachers do
     begin
-      Item := ListView1.Items.Add;
+      Item := TeacherListView.Items.Add;
       Item.Caption :=(TeacherArray[i].TeacherName);
       Item.SubItems.Add(IntToStr(TeacherArray[i].TeacherAge));
       Item.SubItems.Add(TeacherArray[i].SerialPassport);
@@ -63,16 +69,56 @@ begin
     end;
 end;
 
-procedure TTableTeachersForm.ListBox1Click(Sender: TObject);
+procedure TTableTeachersForm.TeacherListViewDragDrop(Sender, Source: TObject;
+  X, Y: Integer);
+  var DropItem,CurrentItem:TListItem; i,n:integer;
+begin
+  if Sender = Source then
+    with TListView(Sender) do begin
+      DropItem:= GetItemAt(X, Y);
+        if DropItem<>nil then
+          begin
+          CurrentItem:=TListItem.Create(Items);
+          CurrentItem.Assign(Selected);
+          Selected.Delete;
+          n:=DropItem.Index;
+          AddItem('',nil);
+        for I :=items.Count-1  downto DropItem.Index+1 do begin
+           items.Item[i].Assign(items.Item[i-1]);
+        end;
+    Items.Item[n].Assign(CurrentItem);
+    end;
+    end;
+end;
+
+procedure TTableTeachersForm.TeacherListViewDragOver(Sender, Source: TObject;
+  X, Y: Integer; State: TDragState; var Accept: Boolean);
+begin
+  with Sender as TListView do
+    Accept := (Sender = TeacherListView) and (GetItemAt(X, Y) <> Selected);
+end;
+
+
+procedure TTableTeachersForm.delTeacherClick(Sender: TObject);
+begin
+  if(countTeachers <> 0) then
+  begin
+    TeacherListView.Selected.Delete;
+    countTeachers:=countTeachers-1;
+    numChildGrp:=numChildGrp-1;
+    MainForm.restartStatClick;
+  end else if(countTeachers = 0) then ShowMessage('Нечего удалять!') else
+    if(TeacherListView.Selected.Selected = false) then
+    ShowMessage('Не выбран пункт для удаления!');
+end;
+
+procedure TTableTeachersForm.TeacherListViewSelectItem(Sender: TObject;
+  Item: TListItem; Selected: Boolean);
 begin
 
 end;
 
-procedure TTableTeachersForm.ListBox1SelectionChange(Sender: TObject;
-  User: boolean);
-begin
-  ShowMessage('Проверка!');
-end;
+
 
 
 end.

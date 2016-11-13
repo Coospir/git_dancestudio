@@ -40,7 +40,7 @@
         <PackageName Value="LCL"/>
       </Item3>
     </RequiredPackages>
-    <Units Count="9">
+    <Units Count="10">
       <Unit0>
         <Filename Value="DanceStudio.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -102,6 +102,14 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="tableTeacherUnit"/>
       </Unit8>
+      <Unit9>
+        <Filename Value="addnewchildabnunit.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="addNewChildAbnForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="addNewChildAbnUnit"/>
+      </Unit9>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

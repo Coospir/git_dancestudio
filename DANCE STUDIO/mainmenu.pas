@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, FileUtil, DateTimePicker, Forms, Controls, Graphics,
   Dialogs, Menus, StdCtrls, ExtCtrls, ComCtrls, IniFiles, addNewManGrpUnit,
-  addNewChildGrpUnit, addNewTeacherUnit, settingsUnit, tableTeacherUnit;
+  addNewChildGrpUnit, addNewTeacherUnit, settingsUnit, tableTeacherUnit, addNewChildAbnUnit;
 
 type
 
@@ -16,13 +16,12 @@ type
   TMainForm = class(TForm)
     DateTimePicker1: TDateTimePicker;
     CreateMemoPanel: TGroupBox;
+    childAbnStatistic: TLabel;
     MemoWindow: TMemo;
-    restartStat: TButton;
     StatisticGrpBox: TGroupBox;
     manGrpStatistic: TLabel;
     danceTeachers: TMenuItem;
     addNewTeacher: TMenuItem;
-    deleteTeacher: TMenuItem;
     addSettings: TMenuItem;
     teachersGrpStatistic: TLabel;
     watchTeachers: TMenuItem;
@@ -34,23 +33,22 @@ type
     childGrp: TMenuItem;
     manGrp: TMenuItem;
     CreateNewChildGrp: TMenuItem;
-    DeleteChildGrp: TMenuItem;
     AddNewChildAbn: TMenuItem;
     CreateNewManGr: TMenuItem;
     CreateNewManGrp: TMenuItem;
-    DeleteManGrp: TMenuItem;
     procedure AddNewChildAbnClick(Sender: TObject);
     procedure addNewTeacherClick(Sender: TObject);
     procedure CreateNewChildGrpClick(Sender: TObject);
     procedure CreateNewManGrClick(Sender: TObject);
+    procedure deleteTeacherClick(Sender: TObject);
     procedure FormClose(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure restartStatClick(Sender: TObject);
     procedure addSettingsClick(Sender: TObject);
     procedure watchTeachersClick(Sender: TObject);
   private
     { private declarations }
   public
+    procedure restartStatClick;
     { public declarations }
   end;
 const
@@ -66,6 +64,7 @@ implementation
 
 procedure TMainForm.FormCreate(Sender: TObject);
 begin
+  MainForm.restartStatClick;
   try
     IniFile:=TIniFile.Create('settings.ini');
     MainForm.Color:=IniFile.ReadInteger('COLOR','MAINFORMCOLOR',MAINFORM.COLOR);
@@ -78,11 +77,12 @@ begin
 end;
 
 
-procedure TMainForm.restartStatClick(Sender: TObject);
+procedure TMainForm.restartStatClick;
 begin
   childGrpStatistic.Caption:='Количество детских групп: ' + IntToStr(numChildGrp);
   manGrpStatistic.Caption:='Количество взрослых групп: ' + IntToStr(numManGrp);
   teachersGrpStatistic.Caption:='Преподавателей в студии: ' + IntToStr(countTeachers);
+  childAbnStatistic.Caption:='Количество детских абонементов: ' + IntToStr(countClients);
   if numChildGrp = 0 then
   begin
     childGrpStatistic.Caption:='Количество детских групп: ' + noGrpWarning;
@@ -94,6 +94,10 @@ begin
   if countTeachers = 0 then
   begin
     teachersGrpStatistic.Caption:='Преподавателей в студии: ' + noGrpWarning;
+  end;
+  if countClients = 0 then
+  begin
+    childAbnStatistic.Caption:='Количество детских абонементов: ' + noGrpWarning;
   end;
 end;
 
@@ -128,7 +132,9 @@ end;
 
 procedure TMainForm.AddNewChildAbnClick(Sender: TObject);
 begin
-
+  addNewChildAbnForm:=TaddNewChildAbnForm.Create(self);
+  MainForm.InsertControl(addNewChildAbnForm);
+  addNewChildAbnForm.Show;
 end;
 
 
@@ -137,6 +143,11 @@ begin
   addNewManGrpForm:=TaddNewManGrpForm.Create(self);
   MainForm.InsertControl(addNewManGrpForm);
   addNewManGrpForm.Show;
+end;
+
+procedure TMainForm.deleteTeacherClick(Sender: TObject);
+begin
+
 end;
 
 
@@ -150,7 +161,7 @@ begin
   Rewrite(simpleFile);
   for i:=1 to countTeachers do
   begin
-    write(simpleFile,TeacherArray[countTeachers]);
+    write(simpleFile, TeacherArray[countTeachers]);
   end;
   CloseFile(simpleFile);
   if IOResult <> 0 then ShowMessage('Ошибка записи в файл.');

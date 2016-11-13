@@ -15,6 +15,7 @@ type
   TaddNewChildGrpForm = class(TForm)
     btnSaveChildGrp: TButton;
     changeTeacherChildGrp: TComboBox;
+    addTeacherForGrpLabel: TLabel;
     NameChildGroup: TBoundLabel;
     NameGroupChildLabeledEdit: TLabeledEdit;
     procedure btnSaveChildGrpClick(Sender: TObject);
@@ -37,6 +38,7 @@ var
   grpChildArr : array[1..countChildGrp] of grpChild;
   numChildGrp : integer;
 implementation
+uses MainMenu;
 
 {$R *.lfm}
 
@@ -44,14 +46,21 @@ implementation
 
 procedure TaddNewChildGrpForm.btnSaveChildGrpClick(Sender: TObject);
 begin
-  numChildGrp:=numChildGrp+1;
-  grpChildArr[numChildGrp].nameGrp:=NameGroupChildLabeledEdit.Text;
-  close;
+  //if(TeacherArray[countTeachers].TeacherName = '') then
+  //      begin
+  //        ShowMessage('Невозможно сохранить данные: список преподавателей пуст!');
+  //      end else
+        begin
+          numChildGrp:=numChildGrp+1;
+          grpChildArr[numChildGrp].nameGrp:=NameGroupChildLabeledEdit.Text;
+          MainForm.restartStatClick;
+          close;
+        end;
 end;
 
 procedure TaddNewChildGrpForm.changeTeacherChildGrpChange(Sender: TObject);
-begin
 
+begin
 end;
 
 
@@ -62,8 +71,12 @@ begin
 end;
 
 procedure TaddNewChildGrpForm.FormShow(Sender: TObject);
-begin
-  changeTeacherChildGrp.AddItem(TeacherArray[countTeachers].TeacherName, NIL);
+var i : integer;
+  begin
+  for i := 1 to countTeachers do
+    begin
+      changeTeacherChildGrp.AddItem(TeacherArray[i].TeacherName, NIL);
+    end;
 end;
 
 end.

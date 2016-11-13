@@ -14,6 +14,7 @@ type
 
   TaddNewTeacherForm = class(TForm)
     ageNewTeacher: TEdit;
+    danceDirectionNewTeacherLabel: TLabel;
     saveInfoNewTeacherBtn: TButton;
     danceDirectionNewTeacher: TComboBox;
     SerialNumberPassLabel: TLabel;
@@ -53,7 +54,7 @@ var
   TeacherArray : array[1..maxCountTeachers] of TDanceTeacher;
 
 implementation
-
+uses MainMenu;
 {$R *.lfm}
 
 
@@ -71,7 +72,7 @@ begin
     if (nameNewTeacher.Text = '') or (ageNewTeacher.Text = '') or(passSerialNewTeacher.Text = '') or (passNumberNewTeacher.Text = '') or (emailNewTeacher.Text = '') or (telNumberNewTeacher.Text = '') then
     begin
       ShowMessage('Оставлено пустое поле!');
-    end else
+    end else if(countTeachers >= maxCountTeachers) then ShowMessage('Достигнуто максимальное количество записей "Преподаватели"!') else
     begin
     TeacherArray[countTeachers+1].TeacherName:=nameNewTeacher.Text;
     TeacherArray[countTeachers+1].TeacherAge:=StrToInt(ageNewTeacher.Text);
@@ -94,7 +95,8 @@ begin
     end;
       ShowMessage('Данные успешно сохранены!');
       countTeachers:=countTeachers+1;
-      Close;
+      MainForm.restartStatClick;
+      //Close;
     end;
   except
     on EConvertError do ShowMessage('Заполнены не все поля!');
