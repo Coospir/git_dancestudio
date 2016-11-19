@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, FileUtil, DateTimePicker, Forms, Controls, Graphics,
   Dialogs, Menus, StdCtrls, ExtCtrls, ComCtrls, IniFiles, addNewManGrpUnit,
-  addNewChildGrpUnit, addNewTeacherUnit, settingsUnit, tableTeacherUnit, addNewChildAbnUnit;
+  addNewChildGrpUnit, addNewTeacherUnit, settingsUnit, tableTeacherUnit, addNewChildAbnUnit, tableChildGrpUnit;
 
 type
 
@@ -34,16 +34,16 @@ type
     manGrp: TMenuItem;
     CreateNewChildGrp: TMenuItem;
     AddNewChildAbn: TMenuItem;
-    CreateNewManGr: TMenuItem;
     CreateNewManGrp: TMenuItem;
+    CreateNewManAbn: TMenuItem;
     procedure AddNewChildAbnClick(Sender: TObject);
     procedure addNewTeacherClick(Sender: TObject);
     procedure CreateNewChildGrpClick(Sender: TObject);
-    procedure CreateNewManGrClick(Sender: TObject);
-    procedure deleteTeacherClick(Sender: TObject);
+    procedure CreateNewManGrpClick(Sender: TObject);
     procedure FormClose(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure addSettingsClick(Sender: TObject);
+    procedure OpenChildTableClick(Sender: TObject);
     procedure watchTeachersClick(Sender: TObject);
   private
     { private declarations }
@@ -108,6 +108,13 @@ begin
   settingsForm.Show;
 end;
 
+procedure TMainForm.OpenChildTableClick(Sender: TObject);
+begin
+  TableChildGrpForm:=TTableChildGrpForm.Create(self);
+  MainForm.InsertControl(TableChildGrpForm);
+  TableChildGrpForm.Show;
+end;
+
 
 procedure TMainForm.watchTeachersClick(Sender: TObject);
 begin
@@ -138,16 +145,11 @@ begin
 end;
 
 
-procedure TMainForm.CreateNewManGrClick(Sender: TObject);
+procedure TMainForm.CreateNewManGrpClick(Sender: TObject);
 begin
   addNewManGrpForm:=TaddNewManGrpForm.Create(self);
   MainForm.InsertControl(addNewManGrpForm);
   addNewManGrpForm.Show;
-end;
-
-procedure TMainForm.deleteTeacherClick(Sender: TObject);
-begin
-
 end;
 
 

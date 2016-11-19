@@ -30,6 +30,7 @@ type
 
 type grpChild = record
      nameGrp : string[20];
+
 end;
 
 

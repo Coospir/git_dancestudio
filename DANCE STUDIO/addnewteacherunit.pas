@@ -39,6 +39,7 @@ type
   TDanceDirection = (HipHop, Krump, JFunk, Break, Improvis, LadyHop, Plastic, Contemp, BalDance, VostokDance, SportAcro);
 type
   TDanceTeacher = record
+      idTeacher : integer;
       TeacherName : string[100];
       TeacherAge : integer;
       SerialPassport : string[6];
@@ -51,14 +52,30 @@ type
 var
   addNewTeacherForm: TaddNewTeacherForm;
   countTeachers : integer;
+
   TeacherArray : array[1..maxCountTeachers] of TDanceTeacher;
 
 implementation
 uses MainMenu;
 {$R *.lfm}
-
-
 { TaddNewTeacherForm }
+
+procedure idMakerForTeacher();
+var
+    max_num: integer;
+    i: byte;
+begin
+    max_num := 1;
+//    max_num := TeacherArray[1].idTeacher;
+
+    for i := 1 to countTeachers-1 do
+        if TeacherArray[i].idTeacher >= max_num then begin
+            max_num := TeacherArray[i].idTeacher;
+	    max_num := max_num + 1;
+        end;
+    TeacherArray[countTeachers].idTeacher:= max_num;
+end;
+
 
 procedure TaddNewTeacherForm.FormCreate(Sender: TObject);
 begin
@@ -95,6 +112,7 @@ begin
     end;
       ShowMessage('Данные успешно сохранены!');
       countTeachers:=countTeachers+1;
+      idMakerForTeacher();
       MainForm.restartStatClick;
       //Close;
     end;
