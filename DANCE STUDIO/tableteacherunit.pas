@@ -5,18 +5,25 @@ unit tableTeacherUnit;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, Forms, Controls, Graphics,
-  Dialogs, StdCtrls, ActnList, ComCtrls, addNewTeacherUnit, XMLRead, XMLWrite, DOM;
+  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
+  ActnList, ComCtrls, Buttons, addNewTeacherUnit, XMLRead, XMLWrite, DOM;
 
 type
 
   { TTableTeachersForm }
 
   TTableTeachersForm = class(TForm)
+    addLineBtn: TButton;
+    changeLineBtn: TButton;
+    grpboxTeacherListView: TGroupBox;
+    pageControlTeacher: TPageControl;
     readFromXmlFile: TButton;
     saveToXmlFile: TButton;
     delTeacher: TButton;
+    btnForListView: TTabSheet;
+    btnForFunctions: TTabSheet;
     TeacherListView: TListView;
+    procedure addLineBtnClick(Sender: TObject);
     procedure delTeacherClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure readFromXmlFileClick(Sender: TObject);
@@ -28,14 +35,29 @@ type
       Selected: Boolean);
   private
     { private declarations }
-    XMLfile: TXMLDocument;
+
   public
+    XMLfile: TXMLDocument;
     { public declarations }
   end;
+
+type
+    TMyThread = class(TThread)
+    private
+      cpTeacherArray : cTeacherArray;
+      procedure successSaveXML();
+      procedure errorSaveXML();
+    public
+      constructor Create(var copyTeacherArray : cTeacherArray);
+    protected
+      procedure Execute; override;
+    end;
 
 var
   TableTeachersForm: TTableTeachersForm;
   Item : TListItem;
+  MyThread : TMyThread;
+
 implementation
 uses MainMenu, addNewChildGrpUnit;
 
@@ -43,73 +65,27 @@ uses MainMenu, addNewChildGrpUnit;
 
 { TTableTeachersForm }
 
-procedure TTableTeachersForm.FormCreate(Sender: TObject);
-var
-  i: integer;
+procedure TMyThread.successSaveXML;
 begin
-  Left:=0;
-  Top:=0;
-  for i:=1 to countTeachers do
-    begin
-      Item := TeacherListView.Items.Add;
-      Item.Caption := (IntToStr(TeacherArray[i].idTeacher));
-      Item.SubItems.Add(TeacherArray[i].TeacherName);
-      Item.SubItems.Add(IntToStr(TeacherArray[i].TeacherAge));
-      Item.SubItems.Add(TeacherArray[i].SerialPassport);
-      Item.SubItems.Add(IntToStr(TeacherArray[i].NumberPassport));
-      Item.SubItems.Add(TeacherArray[i].TeacherEmail);
-      Item.SubItems.Add(TeacherArray[i].TelephoneNumber);
-      case TeacherArray[i].DanceDirection of
-      HipHop: Item.SubItems.Add('Хип-Хоп');
-      Krump: Item.SubItems.Add('Крамп');
-      JFunk: Item.SubItems.Add('Джазз-Фанк');
-      Break: Item.SubItems.Add('Брейкданс');
-      Improvis: Item.SubItems.Add('Импровизация');
-      LadyHop: Item.SubItems.Add('Лэдис Хип-Хоп');
-      Plastic: Item.SubItems.Add('Стрип-Пластика');
-      Contemp: Item.SubItems.Add('Контемпорари');
-      BalDance: Item.SubItems.Add('Бальные танцы');
-      VostokDance: Item.SubItems.Add('Восточные танцы');
-      SportAcro: Item.SubItems.Add('Спортивная акроботика');
-      end;
-    end;
+  ShowMessage('Записано в файл: ' + 'dance_studio.xml');
 end;
 
-procedure TTableTeachersForm.readFromXmlFileClick(Sender: TObject);
-var
-  Doc: TXMLDocument;
-  Child: TDOMNode;
-  j: Integer;
+procedure TMyThread.errorSaveXML;
 begin
-  try
-    ReadXMLFile(Doc, 'dance_studio.xml');
-    //TListView.Clear;
-    Child := Doc.DocumentElement.FirstChild;
-    while Assigned(Child) do
-    begin
-      Item.SubItems.Add(Child.NodeName + ' ' + Child.Attributes.Item[0].NodeValue);
-      with Child.ChildNodes do
-      try
-        for j:=1 to countTeachers do
-    begin
-
-      end;
-      finally
-        Free;
-      end;
-      Child := Child.NextSibling;
-    end;
-  finally
-    Doc.Free;
-  end;
+  ShowMessage('Пустая таблица!');
 end;
 
-procedure TTableTeachersForm.saveToXmlFileClick(Sender: TObject);
+constructor TMyThread.Create(var copyTeacherArray : cTeacherArray);
+begin
+  copyTeacherArray := TeacherArray;
+end;
+
+procedure TMyThread.Execute();
 var RootNode, ElementNode, ItemNode, TextNode, PassNode : TDOMNode;
     Document : TXMLDocument;
     i : integer;
-begin
-  if countTeachers <> 0 then
+  begin
+    if countTeachers <> 0 then
   begin
     Document:=TXMLDocument.Create;
     with Document do
@@ -141,14 +117,85 @@ begin
         end;
     end;
     Document.AppendChild(ElementNode);
-    ShowMessage('Записано в файл: '+ 'dance_studio.xml');
     writeXMLFile(Document, 'dance_studio.xml');
-    XMLfile.Free;
-  end
-  else ShowMessage('Пустая таблица!');
+    Synchronize(@successSaveXML);
+  end else Synchronize(@errorSaveXML);
+end;
+
+procedure TTableTeachersForm.FormCreate(Sender: TObject);
+var
+  i: integer;
+begin
+  Left:=0;
+  Top:=0;
+  for i:=1 to countTeachers do
+    begin
+      Item := TeacherListView.Items.Add;
+      Item.Caption := (IntToStr(TeacherArray[i].idTeacher));
+      Item.SubItems.Add(TeacherArray[i].TeacherName);
+      Item.SubItems.Add(IntToStr(TeacherArray[i].TeacherAge));
+      Item.SubItems.Add(TeacherArray[i].SerialPassport);
+      Item.SubItems.Add(IntToStr(TeacherArray[i].NumberPassport));
+      Item.SubItems.Add(TeacherArray[i].TeacherEmail);
+      Item.SubItems.Add(TeacherArray[i].TelephoneNumber);
+        case TeacherArray[i].DanceDirection of
+          HipHop: Item.SubItems.Add('Хип-Хоп');
+          Krump: Item.SubItems.Add('Крамп');
+          JFunk: Item.SubItems.Add('Джазз-Фанк');
+          Break: Item.SubItems.Add('Брейкданс');
+          Improvis: Item.SubItems.Add('Импровизация');
+          LadyHop: Item.SubItems.Add('Лэдис Хип-Хоп');
+          Plastic: Item.SubItems.Add('Стрип-Пластика');
+          Contemp: Item.SubItems.Add('Контемпорари');
+          BalDance: Item.SubItems.Add('Бальные танцы');
+          VostokDance: Item.SubItems.Add('Восточные танцы');
+          SportAcro: Item.SubItems.Add('Спортивная акроботика');
+        end;
+    end;
+end;
+
+
+
+procedure TTableTeachersForm.readFromXmlFileClick(Sender: TObject);
+var
+  PassNode : TDOMNode;
+  Document : TXMLDocument;
+  sIdTeacher,sNameTeacher,sAgeTeacher, sSerialPassTeacher, sNumberPassTeacher, sEmailTeacher, sTelephoneTeacher, sDanceDirectionTeacher : string;
+  i : integer;
+  Element : TDOMNode;
+begin
+  readXMLFile(Document,'dance_studio.xml');
+  Element:=Document.FirstChild.FirstChild;
+  i := 1;
+  try
+    try
+      repeat
+        sIdTeacher:=Element.Attributes.GetNamedItem('TeacherId').NodeValue;
+        sNameTeacher:=Element.Attributes.GetNamedItem('TeacherName').NodeValue;
+        sAgeTeacher:=Element.Attributes.GetNamedItem('TeacherAge').NodeValue;
+        sSerialPassTeacher:=Element.Attributes.GetNamedItem('TeacherSerialPass').NodeValue;
+        sNumberPassTeacher:=Element.Attributes.GetNamedItem('TeacherNumberPass').NodeValue;
+        sEmailTeacher:=Element.Attributes.GetNamedItem('TeacherEmail').NodeValue;
+        sTelephoneTeacher:=Element.Attributes.GetNamedItem('TeacherTelephone').NodeValue;
+        //sDanceDirectionTeacher:=Element.Attributes.GetNamedItem('TeacherEmail').NodeValue);
+        TeacherArray[i].idTeacher:=StrToInt(sIdTeacher);
+        i:=i+1;
+        Element:=Element.NextSibling;
+      until Element = NIL;
+    except
+      ShowMessage('Ошибка чтения XML - файла!');
+    end;
+  finally
+    Document.Free;
   end;
+end;
 
-
+procedure TTableTeachersForm.saveToXmlFileClick(Sender: TObject);
+begin
+  copyTeacherArray := TeacherArray;
+  MyThread := TMyThread.Create(TeacherArray);
+  MyThread.Execute;
+end;
 
 procedure TTableTeachersForm.TeacherListViewDragDrop(Sender, Source: TObject;
   X, Y: Integer);
@@ -181,22 +228,37 @@ end;
 
 
 procedure TTableTeachersForm.delTeacherClick(Sender: TObject);
+var i : integer;
+    indexToDel : integer;
 begin
-  if(countTeachers <> 0) then
-  begin
-    if(TeacherListView.Selected = NIL) then
-      begin
-        ShowMessage('Не выбран пункт для удаления!');
-      end else
-      if(TeacherListView.Column[0].Caption = IntToStr(TeacherArray[countTeachers].idTeacher)) then
-      begin
-        TeacherListView.Selected.Delete;
-        countTeachers:=countTeachers-1;
-        numChildGrp:=numChildGrp-1;
-        MainForm.restartStatClick;
-      end;
-  end else if(countTeachers = 0) then ShowMessage('Нечего удалять!') else
+  if(countTeachers = 0) then ShowMessage('Удаление невозможно: таблица пуста.') else
+    begin
+      if(TeacherListView.Selected = NIL) then
+        begin
+          ShowMessage('Удаление невозможно: не выбрано поле для удаления!');
+        end else
+        begin
+          indexToDel := TeacherListView.Selected.Index;
+          TeacherListView.Selected.Delete();
+          for i := indexToDel+1 to countTeachers-1 do
+          //Вот здеся смещение влево
+            TeacherArray[i] := TeacherArray[i+1];
+            dec(countTeachers);
+            MainForm.restartStatClick;
+        end;
+    end;
 end;
+
+procedure TTableTeachersForm.addLineBtnClick(Sender: TObject);
+begin
+  addNewTeacherForm:=TaddNewTeacherForm.Create(self);
+  TableTeachersForm.InsertControl(addNewTeacherForm);
+  addNewTeacherForm.Show;
+end;
+
+
+
+
 
 procedure TTableTeachersForm.TeacherListViewSelectItem(Sender: TObject;
   Item: TListItem; Selected: Boolean);

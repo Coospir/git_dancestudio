@@ -15,7 +15,7 @@ type
   TaddNewChildGrpForm = class(TForm)
     btnSaveChildGrp: TButton;
     changeTeacherChildGrp: TComboBox;
-    addTeacherForGrpLabel: TLabel;
+    addTeacherForChildGrpLabel: TLabel;
     NameChildGroup: TBoundLabel;
     NameGroupChildLabeledEdit: TLabeledEdit;
     procedure btnSaveChildGrpClick(Sender: TObject);
@@ -29,7 +29,7 @@ type
   end;
 
 type grpChild = record
-     nameGrp : string[20];
+     nameGrp : string[50];
 
 end;
 
@@ -47,16 +47,10 @@ uses MainMenu;
 
 procedure TaddNewChildGrpForm.btnSaveChildGrpClick(Sender: TObject);
 begin
-  //if(TeacherArray[countTeachers].TeacherName = '') then
-  //      begin
-  //        ShowMessage('Невозможно сохранить данные: список преподавателей пуст!');
-  //      end else
-        begin
-          numChildGrp:=numChildGrp+1;
-          grpChildArr[numChildGrp].nameGrp:=NameGroupChildLabeledEdit.Text;
-          MainForm.restartStatClick;
-          close;
-        end;
+  numChildGrp:=numChildGrp+1;
+  grpChildArr[numChildGrp].nameGrp:=NameGroupChildLabeledEdit.Text;
+  MainForm.restartStatClick;
+  Close;
 end;
 
 procedure TaddNewChildGrpForm.changeTeacherChildGrpChange(Sender: TObject);

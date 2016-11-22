@@ -6,18 +6,21 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, DateTimePicker, Forms, Controls, Graphics,
-  Dialogs, Menus, StdCtrls, ExtCtrls, ComCtrls, IniFiles, addNewManGrpUnit,
-  addNewChildGrpUnit, addNewTeacherUnit, settingsUnit, tableTeacherUnit, addNewChildAbnUnit, tableChildGrpUnit;
+  Dialogs, Menus, StdCtrls, ExtCtrls, ComCtrls, ButtonPanel, IniFiles,
+  addNewManGrpUnit, addNewChildGrpUnit, addNewTeacherUnit, settingsUnit,
+  tableTeacherUnit, addNewChildAbnUnit, tableChildGrpUnit;
 
 type
 
   { TMainForm }
 
   TMainForm = class(TForm)
-    DateTimePicker1: TDateTimePicker;
     CreateMemoPanel: TGroupBox;
     childAbnStatistic: TLabel;
+    countSymbols: TLabel;
+    ofHundredLabel: TLabel;
     MemoWindow: TMemo;
+    DanceStudioAbn: TMenuItem;
     StatisticGrpBox: TGroupBox;
     manGrpStatistic: TLabel;
     danceTeachers: TMenuItem;
@@ -33,17 +36,19 @@ type
     childGrp: TMenuItem;
     manGrp: TMenuItem;
     CreateNewChildGrp: TMenuItem;
-    AddNewChildAbn: TMenuItem;
     CreateNewManGrp: TMenuItem;
-    CreateNewManAbn: TMenuItem;
     procedure AddNewChildAbnClick(Sender: TObject);
     procedure addNewTeacherClick(Sender: TObject);
     procedure CreateNewChildGrpClick(Sender: TObject);
+    procedure CreateNewManAbnClick(Sender: TObject);
     procedure CreateNewManGrpClick(Sender: TObject);
+    procedure DanceStudioAbnClick(Sender: TObject);
     procedure FormClose(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure addSettingsClick(Sender: TObject);
+    procedure MemoWindowChange(Sender: TObject);
     procedure OpenChildTableClick(Sender: TObject);
+    procedure OpenManTableClick(Sender: TObject);
     procedure watchTeachersClick(Sender: TObject);
   private
     { private declarations }
@@ -108,11 +113,33 @@ begin
   settingsForm.Show;
 end;
 
+procedure TMainForm.MemoWindowChange(Sender: TObject);
+begin
+
+end;
+
 procedure TMainForm.OpenChildTableClick(Sender: TObject);
 begin
-  TableChildGrpForm:=TTableChildGrpForm.Create(self);
-  MainForm.InsertControl(TableChildGrpForm);
-  TableChildGrpForm.Show;
+  if(countTeachers = 0) then
+  begin
+    ShowMessage('В базе нет преподавателей, создайте их!');
+  end else
+  begin
+    TableChildGrpForm:=TTableChildGrpForm.Create(self);
+    MainForm.InsertControl(TableChildGrpForm);
+    TableChildGrpForm.Show;
+  end;
+end;
+
+procedure TMainForm.OpenManTableClick(Sender: TObject);
+begin
+  if(countTeachers = 0) then
+  begin
+    ShowMessage('В базе нет преподавателей, создайте их!');
+  end else
+  begin
+
+  end;
 end;
 
 
@@ -125,31 +152,76 @@ end;
 
 procedure TMainForm.CreateNewChildGrpClick(Sender: TObject);
 begin
-  addNewChildGrpForm:= TaddNewChildGrpForm.Create(self);
-  MainForm.InsertControl(addNewChildGrpForm);
-  addNewChildGrpForm.Show;
+  if(countTeachers = 0) then
+  begin
+    ShowMessage('В базе нет преподавателей, создайте их!');
+  end else
+  begin
+    addNewChildGrpForm:= TaddNewChildGrpForm.Create(self);
+    MainForm.InsertControl(addNewChildGrpForm);
+    addNewChildGrpForm.Show;
+  end;
+end;
+
+procedure TMainForm.CreateNewManAbnClick(Sender: TObject);
+begin
+  if(countTeachers = 0) then
+  begin
+    ShowMessage('В базе нет преподавателей, создайте их!');
+  end else
+  begin
+
+  end;
 end;
 
 procedure TMainForm.addNewTeacherClick(Sender: TObject);
 begin
+  //MyThread := TMyThread.Create(false);
   addNewTeacherForm:=TaddNewTeacherForm.Create(self);
   MainForm.InsertControl(addNewTeacherForm);
   addNewTeacherForm.Show;
 end;
 
+
+
 procedure TMainForm.AddNewChildAbnClick(Sender: TObject);
 begin
-  addNewChildAbnForm:=TaddNewChildAbnForm.Create(self);
-  MainForm.InsertControl(addNewChildAbnForm);
-  addNewChildAbnForm.Show;
+  if(countTeachers = 0) then
+  begin
+    ShowMessage('В базе нет преподавателей, создайте их!');
+  end else
+  begin
+    addNewChildAbnForm:=TaddNewChildAbnForm.Create(self);
+    MainForm.InsertControl(addNewChildAbnForm);
+    addNewChildAbnForm.Show;
+  end;
 end;
 
 
 procedure TMainForm.CreateNewManGrpClick(Sender: TObject);
 begin
-  addNewManGrpForm:=TaddNewManGrpForm.Create(self);
-  MainForm.InsertControl(addNewManGrpForm);
-  addNewManGrpForm.Show;
+  if(countTeachers = 0) then
+  begin
+    ShowMessage('В базе нет преподавателей, создайте их!');
+  end else
+  begin
+    addNewManGrpForm:=TaddNewManGrpForm.Create(self);
+    MainForm.InsertControl(addNewManGrpForm);
+    addNewManGrpForm.Show;
+  end;
+end;
+
+procedure TMainForm.DanceStudioAbnClick(Sender: TObject);
+begin
+  if(countTeachers = 0) then
+  begin
+    ShowMessage('В базе нет преподавателей, создайте их!');
+  end else
+  begin
+    addNewChildAbnForm:=TaddNewChildAbnForm.Create(self);
+    MainForm.InsertControl(addNewChildAbnForm);
+    addNewChildAbnForm.Show;
+  end;
 end;
 
 
@@ -177,6 +249,4 @@ begin
     ShowMessage('Невозможно работать с файлом.');
   end;
 end;
-
 end.
-

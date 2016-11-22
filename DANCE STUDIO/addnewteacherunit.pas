@@ -34,6 +34,9 @@ type
   public
     { public declarations }
   end;
+
+
+
 const maxCountTeachers = 5;
 type
   TDanceDirection = (HipHop, Krump, JFunk, Break, Improvis, LadyHop, Plastic, Contemp, BalDance, VostokDance, SportAcro);
@@ -48,12 +51,15 @@ type
       TelephoneNumber : string[20];
       DanceDirection : TDanceDirection;
   end;
+type
+  cTeacherArray = array[1..maxCountTeachers] of TDanceTeacher;
 
 var
   addNewTeacherForm: TaddNewTeacherForm;
   countTeachers : integer;
 
   TeacherArray : array[1..maxCountTeachers] of TDanceTeacher;
+  copyTeacherArray : cTeacherArray;
 
 implementation
 uses MainMenu;
@@ -66,7 +72,7 @@ var
     i: byte;
 begin
     max_num := 1;
-//    max_num := TeacherArray[1].idTeacher;
+//  max_num := TeacherArray[1].idTeacher;
 
     for i := 1 to countTeachers-1 do
         if TeacherArray[i].idTeacher >= max_num then begin
@@ -84,12 +90,14 @@ begin
 end;
 
 procedure TaddNewTeacherForm.saveInfoNewTeacherBtnClick(Sender: TObject);
+var cpTeacherArray : cTeacherArray;
 begin
   try
     if (nameNewTeacher.Text = '') or (ageNewTeacher.Text = '') or(passSerialNewTeacher.Text = '') or (passNumberNewTeacher.Text = '') or (emailNewTeacher.Text = '') or (telNumberNewTeacher.Text = '') then
     begin
       ShowMessage('Оставлено пустое поле!');
     end else if(countTeachers >= maxCountTeachers) then ShowMessage('Достигнуто максимальное количество записей "Преподаватели"!') else
+      if(ageNewTeacher.Text < '18') then ShowMessage('Возраст преподавателя слишком мал!') else
     begin
     TeacherArray[countTeachers+1].TeacherName:=nameNewTeacher.Text;
     TeacherArray[countTeachers+1].TeacherAge:=StrToInt(ageNewTeacher.Text);
@@ -114,11 +122,11 @@ begin
       countTeachers:=countTeachers+1;
       idMakerForTeacher();
       MainForm.restartStatClick;
-      //Close;
     end;
   except
     on EConvertError do ShowMessage('Заполнены не все поля!');
   end;
+  cpTeacherArray := TeacherArray;
 end;
 
 end.

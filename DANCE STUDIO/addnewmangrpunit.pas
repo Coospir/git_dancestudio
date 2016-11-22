@@ -13,7 +13,9 @@ const
 type
   { TaddNewManGrpForm }
   TaddNewManGrpForm = class(TForm)
+    addTeacherForManGrpLabel: TLabel;
     btnSaveManGrp: TButton;
+    changeTeacherManGrp: TComboBox;
     NameGroupManLabeledEdit: TLabeledEdit;
     NameManGroup: TBoundLabel;
     procedure btnSaveManGrpClick(Sender: TObject);
