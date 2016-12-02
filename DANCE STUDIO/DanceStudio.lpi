@@ -29,18 +29,21 @@
         <HostApplicationFilename Value="D:\COLLEGE\DANCE STUDIO old version\DanceStudio.exe"/>
       </local>
     </RunParams>
-    <RequiredPackages Count="3">
+    <RequiredPackages Count="4">
       <Item1>
-        <PackageName Value="LazControls"/>
+        <PackageName Value="Printer4Lazarus"/>
       </Item1>
       <Item2>
-        <PackageName Value="DateTimeCtrls"/>
+        <PackageName Value="LazControls"/>
       </Item2>
       <Item3>
-        <PackageName Value="LCL"/>
+        <PackageName Value="DateTimeCtrls"/>
       </Item3>
+      <Item4>
+        <PackageName Value="LCL"/>
+      </Item4>
     </RequiredPackages>
-    <Units Count="11">
+    <Units Count="10">
       <Unit0>
         <Filename Value="DanceStudio.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -62,62 +65,54 @@
         <UnitName Value="addNewChildGrpUnit"/>
       </Unit2>
       <Unit3>
-        <Filename Value="addnewmangrpunit.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="addNewManGrpForm"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
-        <UnitName Value="addNewManGrpUnit"/>
-      </Unit3>
-      <Unit4>
         <Filename Value="settingsunit.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="settingsForm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="settingsUnit"/>
-      </Unit4>
-      <Unit5>
+      </Unit3>
+      <Unit4>
         <Filename Value="addnewteacherunit.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="addNewTeacherForm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="addNewTeacherUnit"/>
-      </Unit5>
-      <Unit6>
+      </Unit4>
+      <Unit5>
         <Filename Value="childlistgrp.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="childListGrp"/>
-      </Unit6>
-      <Unit7>
+      </Unit5>
+      <Unit6>
         <Filename Value="childlistgrpunit.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit7>
-      <Unit8>
+      </Unit6>
+      <Unit7>
         <Filename Value="tableteacherunit.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="TableTeachersForm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="tableTeacherUnit"/>
-      </Unit8>
-      <Unit9>
+      </Unit7>
+      <Unit8>
         <Filename Value="addnewchildabnunit.pas"/>
         <IsPartOfProject Value="True"/>
-        <ComponentName Value="addNewChildAbnForm"/>
+        <ComponentName Value="addNewAbnForm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="addNewChildAbnUnit"/>
-      </Unit9>
-      <Unit10>
+      </Unit8>
+      <Unit9>
         <Filename Value="tablechildgrpunit.pas"/>
         <IsPartOfProject Value="True"/>
-        <ComponentName Value="TableChildGrpForm"/>
+        <ComponentName Value="ListAllGrpForm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="tableChildGrpUnit"/>
-      </Unit10>
+      </Unit9>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

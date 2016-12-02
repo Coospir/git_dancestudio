@@ -15,6 +15,7 @@ type
   TaddNewTeacherForm = class(TForm)
     ageNewTeacher: TEdit;
     danceDirectionNewTeacherLabel: TLabel;
+    grpboxNewTeacher: TGroupBox;
     saveInfoNewTeacherBtn: TButton;
     danceDirectionNewTeacher: TComboBox;
     SerialNumberPassLabel: TLabel;
@@ -28,6 +29,7 @@ type
     nameNewTeacher: TLabeledEdit;
     nameNewTeacherLabel: TBoundLabel;
     procedure FormCreate(Sender: TObject);
+    procedure nameNewTeacherKeyPress(Sender: TObject; var Key: char);
     procedure saveInfoNewTeacherBtnClick(Sender: TObject);
   private
     { private declarations }
@@ -89,11 +91,17 @@ begin
   Top:=0;
 end;
 
+procedure TaddNewTeacherForm.nameNewTeacherKeyPress(Sender: TObject;
+  var Key: char);
+begin
+  if Key in ['0'..'9'] then Key:=#0;
+end;
+
 procedure TaddNewTeacherForm.saveInfoNewTeacherBtnClick(Sender: TObject);
 var cpTeacherArray : cTeacherArray;
 begin
   try
-    if (nameNewTeacher.Text = '') or (ageNewTeacher.Text = '') or(passSerialNewTeacher.Text = '') or (passNumberNewTeacher.Text = '') or (emailNewTeacher.Text = '') or (telNumberNewTeacher.Text = '') then
+    if (nameNewTeacher.Text = '') or (ageNewTeacher.Text = '') or(passSerialNewTeacher.Text = '') or (passNumberNewTeacher.Text = '') or (emailNewTeacher.Text = '') or (telNumberNewTeacher.Text = '') or (danceDirectionNewTeacher.ItemIndex = -1) then
     begin
       ShowMessage('Оставлено пустое поле!');
     end else if(countTeachers >= maxCountTeachers) then ShowMessage('Достигнуто максимальное количество записей "Преподаватели"!') else

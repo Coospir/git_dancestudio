@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, FileUtil, DateTimePicker, Forms, Controls, Graphics,
   Dialogs, Menus, StdCtrls, ExtCtrls, ComCtrls, ButtonPanel, IniFiles,
-  addNewManGrpUnit, addNewChildGrpUnit, addNewTeacherUnit, settingsUnit,
+  addNewChildGrpUnit, addNewTeacherUnit, settingsUnit,
   tableTeacherUnit, addNewChildAbnUnit, tableChildGrpUnit;
 
 type
@@ -15,41 +15,51 @@ type
   { TMainForm }
 
   TMainForm = class(TForm)
+    btnProgramToTray: TButton;
+    addNoteBtn: TButton;
+    DeleteAllNotesBtn: TButton;
+    DeleteMemoNote: TButton;
+    ListBoxMemo: TListBox;
+    OpenCloseMemoBtn: TButton;
     CreateMemoPanel: TGroupBox;
-    childAbnStatistic: TLabel;
-    countSymbols: TLabel;
-    ofHundredLabel: TLabel;
-    MemoWindow: TMemo;
+    allAbnStatistic: TLabel;
+    allAbn: TMenuItem;
+    CreateNewAbn: TMenuItem;
+    EditForNote: TEdit;
+    OpenListAbn: TMenuItem;
     DanceStudioAbn: TMenuItem;
     StatisticGrpBox: TGroupBox;
-    manGrpStatistic: TLabel;
     danceTeachers: TMenuItem;
-    addNewTeacher: TMenuItem;
+    CreateNewTeacher: TMenuItem;
     addSettings: TMenuItem;
     teachersGrpStatistic: TLabel;
-    watchTeachers: TMenuItem;
-    childGrpStatistic: TLabel;
-    MainMenu1: TMainMenu;
+    OpenListTeachers: TMenuItem;
+    allGrpStatistic: TLabel;
+    MainMenuDanceStudio: TMainMenu;
     Groups: TMenuItem;
-    OpenChildTable: TMenuItem;
-    OpenManTable: TMenuItem;
-    childGrp: TMenuItem;
-    manGrp: TMenuItem;
-    CreateNewChildGrp: TMenuItem;
-    CreateNewManGrp: TMenuItem;
+    OpenListGrp: TMenuItem;
+    allGrp: TMenuItem;
+    CreateNewGrp: TMenuItem;
     procedure AddNewChildAbnClick(Sender: TObject);
-    procedure addNewTeacherClick(Sender: TObject);
-    procedure CreateNewChildGrpClick(Sender: TObject);
+    procedure addNoteBtnClick(Sender: TObject);
+    procedure btnProgramToTrayClick(Sender: TObject);
+    procedure DeleteAllNotesBtnClick(Sender: TObject);
+    procedure CreateNewAbnClick(Sender: TObject);
+    procedure CreateNewTeacherClick(Sender: TObject);
+    procedure allGrpClick(Sender: TObject);
+    procedure CreateNewGrpClick(Sender: TObject);
     procedure CreateNewManAbnClick(Sender: TObject);
-    procedure CreateNewManGrpClick(Sender: TObject);
-    procedure DanceStudioAbnClick(Sender: TObject);
+    procedure DeleteMemoNoteClick(Sender: TObject);
     procedure FormClose(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure addSettingsClick(Sender: TObject);
+    procedure ListBoxMemoClick(Sender: TObject);
+    procedure MemoNotesChange(Sender: TObject);
     procedure MemoWindowChange(Sender: TObject);
-    procedure OpenChildTableClick(Sender: TObject);
+    procedure OpenListGrpClick(Sender: TObject);
     procedure OpenManTableClick(Sender: TObject);
-    procedure watchTeachersClick(Sender: TObject);
+    procedure OpenListTeachersClick(Sender: TObject);
+    procedure OpenCloseMemoBtnClick(Sender: TObject);
   private
     { private declarations }
   public
@@ -57,7 +67,7 @@ type
     { public declarations }
   end;
 const
-  noGrpWarning = ' нет информации.';
+  noGrpWarning = ' нет информации';
 var
   MainForm: TMainForm;
   IniFile: TIniFile;
@@ -84,25 +94,20 @@ end;
 
 procedure TMainForm.restartStatClick;
 begin
-  childGrpStatistic.Caption:='Количество детских групп: ' + IntToStr(numChildGrp);
-  manGrpStatistic.Caption:='Количество взрослых групп: ' + IntToStr(numManGrp);
-  teachersGrpStatistic.Caption:='Преподавателей в студии: ' + IntToStr(countTeachers);
-  childAbnStatistic.Caption:='Количество детских абонементов: ' + IntToStr(countClients);
+  allGrpStatistic.Caption:= 'Всего групп: ' + IntToStr(numChildGrp);
+  teachersGrpStatistic.Caption:= 'Всего преподавателей: ' + IntToStr(countTeachers);
+  allAbnStatistic.Caption:= 'Всего абонементов: ' + IntToStr(countClients);
   if numChildGrp = 0 then
   begin
-    childGrpStatistic.Caption:='Количество детских групп: ' + noGrpWarning;
-  end;
-  if numManGrp = 0 then
-  begin
-    manGrpStatistic.Caption:='Количество взрослых групп: ' + noGrpWarning;
+    allGrpStatistic.Caption:= 'Всего групп: ' + noGrpWarning;
   end;
   if countTeachers = 0 then
   begin
-    teachersGrpStatistic.Caption:='Преподавателей в студии: ' + noGrpWarning;
+    teachersGrpStatistic.Caption:= 'Всего преподавателей: ' + noGrpWarning;
   end;
   if countClients = 0 then
   begin
-    childAbnStatistic.Caption:='Количество детских абонементов: ' + noGrpWarning;
+    allAbnStatistic.Caption:= 'Всего абонементов: ' + noGrpWarning;
   end;
 end;
 
@@ -113,21 +118,33 @@ begin
   settingsForm.Show;
 end;
 
+procedure TMainForm.ListBoxMemoClick(Sender: TObject);
+begin
+
+end;
+
+procedure TMainForm.MemoNotesChange(Sender: TObject);
+begin
+
+end;
+
+
+
 procedure TMainForm.MemoWindowChange(Sender: TObject);
 begin
 
 end;
 
-procedure TMainForm.OpenChildTableClick(Sender: TObject);
+procedure TMainForm.OpenListGrpClick(Sender: TObject);
 begin
   if(countTeachers = 0) then
   begin
-    ShowMessage('В базе нет преподавателей, создайте их!');
+    ShowMessage('В базе данных нет преподавателей, создайте их!');
   end else
   begin
-    TableChildGrpForm:=TTableChildGrpForm.Create(self);
-    MainForm.InsertControl(TableChildGrpForm);
-    TableChildGrpForm.Show;
+    ListAllGrpForm:=TListAllGrpForm.Create(self);
+    MainForm.InsertControl(ListAllGrpForm);
+    ListAllGrpForm.Show;
   end;
 end;
 
@@ -135,7 +152,7 @@ procedure TMainForm.OpenManTableClick(Sender: TObject);
 begin
   if(countTeachers = 0) then
   begin
-    ShowMessage('В базе нет преподавателей, создайте их!');
+    ShowMessage('В базе данных нет преподавателей, создайте их!');
   end else
   begin
 
@@ -143,18 +160,31 @@ begin
 end;
 
 
-procedure TMainForm.watchTeachersClick(Sender: TObject);
+procedure TMainForm.OpenListTeachersClick(Sender: TObject);
 begin
   TableTeachersForm:=TTableTeachersForm.Create(Self);
   MainForm.InsertControl(TableTeachersForm);
   TableTeachersForm.Show;
 end;
 
-procedure TMainForm.CreateNewChildGrpClick(Sender: TObject);
+procedure TMainForm.OpenCloseMemoBtnClick(Sender: TObject);
+begin
+  if(ListBoxMemo.Visible = false) then
+  begin
+    ListBoxMemo.Visible:=true;
+    CreateMemoPanel.Height:=280;
+  end else
+  begin
+    ListBoxMemo.Visible:=false;
+    CreateMemoPanel.Height:=151;
+  end;
+end;
+
+procedure TMainForm.CreateNewGrpClick(Sender: TObject);
 begin
   if(countTeachers = 0) then
   begin
-    ShowMessage('В базе нет преподавателей, создайте их!');
+    ShowMessage('В базе данных нет преподавателей, создайте их!');
   end else
   begin
     addNewChildGrpForm:= TaddNewChildGrpForm.Create(self);
@@ -167,79 +197,90 @@ procedure TMainForm.CreateNewManAbnClick(Sender: TObject);
 begin
   if(countTeachers = 0) then
   begin
-    ShowMessage('В базе нет преподавателей, создайте их!');
+    ShowMessage('В базе данных нет преподавателей, создайте их!');
   end else
   begin
 
   end;
 end;
 
-procedure TMainForm.addNewTeacherClick(Sender: TObject);
+procedure TMainForm.DeleteMemoNoteClick(Sender: TObject);
 begin
-  //MyThread := TMyThread.Create(false);
+  if ListBoxMemo.ItemIndex > -1 then
+  begin
+    ListBoxMemo.Items.Delete(ListBoxMemo.ItemIndex);
+  end else
+  ShowMessage('Список заметок пуст.');
+end;
+
+procedure TMainForm.CreateNewTeacherClick(Sender: TObject);
+begin
   addNewTeacherForm:=TaddNewTeacherForm.Create(self);
   MainForm.InsertControl(addNewTeacherForm);
   addNewTeacherForm.Show;
 end;
 
+procedure TMainForm.allGrpClick(Sender: TObject);
+begin
 
+end;
 
 procedure TMainForm.AddNewChildAbnClick(Sender: TObject);
 begin
   if(countTeachers = 0) then
   begin
-    ShowMessage('В базе нет преподавателей, создайте их!');
+    ShowMessage('В базе данных нет преподавателей, создайте их!');
   end else
   begin
-    addNewChildAbnForm:=TaddNewChildAbnForm.Create(self);
-    MainForm.InsertControl(addNewChildAbnForm);
-    addNewChildAbnForm.Show;
+    addNewAbnForm:=TaddNewAbnForm.Create(self);
+    MainForm.InsertControl(addNewAbnForm);
+    addNewAbnForm.Show;
   end;
 end;
 
+procedure TMainForm.addNoteBtnClick(Sender: TObject);
+begin
+  if(EditForNote.Text = '') then
+  begin
+    ShowMessage('Сначала введите текст.');
+  end else
+  begin
+    ListBoxMemo.Visible:=true;
+    ListBoxMemo.Items.Add(MainForm.EditForNote.Text);
+  end;
+end;
 
-procedure TMainForm.CreateNewManGrpClick(Sender: TObject);
+procedure TMainForm.btnProgramToTrayClick(Sender: TObject);
+begin
+  Application.Minimize;
+end;
+
+procedure TMainForm.DeleteAllNotesBtnClick(Sender: TObject);
+begin
+  if ListBoxMemo.Count <> 0 then
+  begin
+    ListBoxMemo.Clear;
+  end else
+  ShowMessage('Список заметок пуст.');
+end;
+
+procedure TMainForm.CreateNewAbnClick(Sender: TObject);
 begin
   if(countTeachers = 0) then
   begin
-    ShowMessage('В базе нет преподавателей, создайте их!');
+    ShowMessage('В базе данных нет преподавателей, создайте их!');
   end else
   begin
-    addNewManGrpForm:=TaddNewManGrpForm.Create(self);
-    MainForm.InsertControl(addNewManGrpForm);
-    addNewManGrpForm.Show;
+    addNewAbnForm:=TaddNewAbnForm.Create(self);
+    MainForm.InsertControl(addNewAbnForm);
+    addNewAbnForm.Show;
   end;
 end;
 
-procedure TMainForm.DanceStudioAbnClick(Sender: TObject);
-begin
-  if(countTeachers = 0) then
-  begin
-    ShowMessage('В базе нет преподавателей, создайте их!');
-  end else
-  begin
-    addNewChildAbnForm:=TaddNewChildAbnForm.Create(self);
-    MainForm.InsertControl(addNewChildAbnForm);
-    addNewChildAbnForm.Show;
-  end;
-end;
 
 
 procedure TMainForm.FormClose(Sender: TObject);
-var
-  simpleFile : file of TDanceTeacher;
-  i : integer;
 begin
-  {$i-}
-  AssignFile(simpleFile, 'ds.int');
-  Rewrite(simpleFile);
-  for i:=1 to countTeachers do
-  begin
-    write(simpleFile, TeacherArray[countTeachers]);
-  end;
-  CloseFile(simpleFile);
-  if IOResult <> 0 then ShowMessage('Ошибка записи в файл.');
-  {$i+}
   try
     IniFile:= TIniFile.Create('settings.ini');
     IniFile.WriteInteger('MAINFORM','MAINFORMWIDTH',MAINFORM.Width);

@@ -13,9 +13,9 @@ type
   { TsettingsForm }
 
   TsettingsForm = class(TForm)
-    ColorButton1: TColorButton;
+    ColorButton: TColorButton;
     newColorFormSettings: TLabel;
-    procedure ColorButton1ColorChanged(Sender: TObject);
+    procedure ColorButtonColorChanged(Sender: TObject);
     procedure FormCreate(Sender: TObject);
    { procedure saveSettingsClick(Sender: TObject);    }
   private
@@ -40,13 +40,13 @@ begin
   Top:=0;
 end;
 
-  procedure TsettingsForm.ColorButton1ColorChanged(Sender: TObject);
+  procedure TsettingsForm.ColorButtonColorChanged(Sender: TObject);
     var IniFile:TIniFile;
   begin
     try
-      MainForm.Color:=ColorButton1.ButtonColor;
+      MainForm.Color:=ColorButton.ButtonColor;
       IniFile:= TIniFile.Create('settings.ini');
-      IniFile.WriteInteger('COLOR','MAINFORMCOLOR',COLORBUTTON1.BUTTONCOLOR);
+      IniFile.WriteInteger('COLOR','MAINFORMCOLOR',ColorButton.BUTTONCOLOR);
       IniFile.Free;
       Close;
     except
