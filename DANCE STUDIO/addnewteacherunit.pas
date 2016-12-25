@@ -16,6 +16,7 @@ type
     ageNewTeacher: TEdit;
     danceDirectionNewTeacherLabel: TLabel;
     grpboxNewTeacher: TGroupBox;
+    Label1: TLabel;
     saveInfoNewTeacherBtn: TButton;
     danceDirectionNewTeacher: TComboBox;
     SerialNumberPassLabel: TLabel;
@@ -27,7 +28,6 @@ type
     telNumberNewTeacherLabel: TLabel;
     telNumberNewTeacher: TMaskEdit;
     nameNewTeacher: TLabeledEdit;
-    nameNewTeacherLabel: TBoundLabel;
     procedure FormCreate(Sender: TObject);
     procedure nameNewTeacherKeyPress(Sender: TObject; var Key: char);
     procedure saveInfoNewTeacherBtnClick(Sender: TObject);
@@ -39,15 +39,17 @@ type
 
 
 
-const maxCountTeachers = 5;
+  const maxCountTeachers = 5;
 type
   TDanceDirection = (HipHop, Krump, JFunk, Break, Improvis, LadyHop, Plastic, Contemp, BalDance, VostokDance, SportAcro);
+
+
 type
   TDanceTeacher = record
       idTeacher : integer;
       TeacherName : string[100];
       TeacherAge : integer;
-      SerialPassport : string[6];
+      SerialPassport : string[4];
       NumberPassport : integer;
       TeacherEmail : string[100];
       TelephoneNumber : string[20];
@@ -59,14 +61,16 @@ type
 var
   addNewTeacherForm: TaddNewTeacherForm;
   countTeachers : integer;
-
   TeacherArray : array[1..maxCountTeachers] of TDanceTeacher;
   copyTeacherArray : cTeacherArray;
+
 
 implementation
 uses MainMenu;
 {$R *.lfm}
 { TaddNewTeacherForm }
+
+
 
 procedure idMakerForTeacher();
 var
@@ -74,8 +78,6 @@ var
     i: byte;
 begin
     max_num := 1;
-//  max_num := TeacherArray[1].idTeacher;
-
     for i := 1 to countTeachers-1 do
         if TeacherArray[i].idTeacher >= max_num then begin
             max_num := TeacherArray[i].idTeacher;
@@ -91,10 +93,12 @@ begin
   Top:=0;
 end;
 
+
+
 procedure TaddNewTeacherForm.nameNewTeacherKeyPress(Sender: TObject;
   var Key: char);
 begin
-  if Key in ['0'..'9'] then Key:=#0;
+  if (Key in ['0'..'9']) or (Key = '_') then Key:=#0;
 end;
 
 procedure TaddNewTeacherForm.saveInfoNewTeacherBtnClick(Sender: TObject);
@@ -105,7 +109,7 @@ begin
     begin
       ShowMessage('Оставлено пустое поле!');
     end else if(countTeachers >= maxCountTeachers) then ShowMessage('Достигнуто максимальное количество записей "Преподаватели"!') else
-      if(ageNewTeacher.Text < '18') then ShowMessage('Возраст преподавателя слишком мал!') else
+      if(StrToInt(ageNewTeacher.Text) < 18) then ShowMessage('Возраст преподавателя слишком мал!') else
     begin
     TeacherArray[countTeachers+1].TeacherName:=nameNewTeacher.Text;
     TeacherArray[countTeachers+1].TeacherAge:=StrToInt(ageNewTeacher.Text);

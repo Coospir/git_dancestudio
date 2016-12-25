@@ -7,31 +7,47 @@ interface
 uses
   Classes, SysUtils, FileUtil, PrintersDlgs, Forms, Controls, Graphics, Dialogs,
   StdCtrls, ActnList, ComCtrls, Buttons, addNewTeacherUnit, XMLRead, XMLWrite,
-  DOM, Printers, Windows;
+  DOM, Printers, MaskEdit, Windows;
 
 type
 
   { TTableTeachersForm }
 
   TTableTeachersForm = class(TForm)
-    addLineBtn: TButton;
-    Button1: TButton;
+    CloseChangingPanelBtn: TButton;
+    ChangeSelectedTeacherLabel: TLabel;
+    NumberIdLabel: TLabel;
+    ReadFromXML: TButton;
+    SaveNewInfoTeacherBtn: TButton;
+    NewDanceDirectionTeacher: TComboBox;
+    NewNameTeacher: TEdit;
+    NewEmailTeacher: TEdit;
+    NewAgeTeacher: TEdit;
+    NewSerialPassTeacher: TEdit;
+    NewNumberPassTeacher: TEdit;
+    NewTelephoneNumberTeacher: TMaskEdit;
+    PrintBtn: TButton;
     changeLineBtn: TButton;
     grpboxTeacherListView: TGroupBox;
     pageControlTeacher: TPageControl;
     PrintDialog1: TPrintDialog;
-    readFromXmlFile: TButton;
     saveToXmlFile: TButton;
     delTeacher: TButton;
     btnForListView: TTabSheet;
     btnForFunctions: TTabSheet;
     TeacherListView: TListView;
-    procedure addLineBtnClick(Sender: TObject);
-    procedure Button1Click(Sender: TObject);
+    procedure CloseChangingPanelBtnClick(Sender: TObject);
+    procedure ReadFromXMLClick(Sender: TObject);
+    procedure grpboxTeacherListViewClick(Sender: TObject);
+   // procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
+    procedure PrintBtnClick(Sender: TObject);
+    procedure changeLineBtnClick(Sender: TObject);
     procedure delTeacherClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure readFromXmlFileClick(Sender: TObject);
+    procedure SaveNewInfoTeacherBtnClick(Sender: TObject);
     procedure saveToXmlFileClick(Sender: TObject);
+    procedure TeacherListViewDblClick(Sender: TObject);
     procedure TeacherListViewDragDrop(Sender, Source: TObject; X, Y: Integer);
     procedure TeacherListViewDragOver(Sender, Source: TObject; X, Y: Integer;
       State: TDragState; var Accept: Boolean);
@@ -39,6 +55,7 @@ type
       Selected: Boolean);
   private
     { private declarations }
+    numEditingRec : integer;
 
   public
     XMLfile: TXMLDocument;
@@ -48,7 +65,7 @@ type
 type
     TMyThread = class(TThread)
     private
-      cpTeacherArray : cTeacherArray;
+      //cpTeacherArray : cTeacherArray;
       procedure successSaveXML();
       procedure errorSaveXML();
     public
@@ -56,15 +73,15 @@ type
     protected
       procedure Execute; override;
     end;
-const
-  TOTAL_PAGES = 2;   // Сколько страниц печатать
+
 var
   TableTeachersForm: TTableTeachersForm;
   Item : TListItem;
   MyThread : TMyThread;
+  flag : boolean;
 
 implementation
-uses MainMenu, addNewChildGrpUnit;
+uses MainMenu;
 
 {$R *.lfm}
 
@@ -131,7 +148,26 @@ end;
 procedure TTableTeachersForm.FormCreate(Sender: TObject);
 var
   i: integer;
+  PassNode : TDOMNode;
+  Document : TXMLDocument;
+  sIdTeacher,sNameTeacher,sAgeTeacher, sSerialPassTeacher, sNumberPassTeacher, sEmailTeacher, sTelephoneTeacher, sDanceDirectionTeacher : string;
+  Element : TDOMNode;
+  s: string;
 begin
+  flag:=false;
+  case NewDanceDirectionTeacher.ItemIndex of
+      0:TeacherArray[countTeachers+1].DanceDirection:=HipHop;
+      1:TeacherArray[countTeachers+1].DanceDirection:=Krump;
+      2:TeacherArray[countTeachers+1].DanceDirection:=JFunk;
+      3:TeacherArray[countTeachers+1].DanceDirection:=Break;
+      4:TeacherArray[countTeachers+1].DanceDirection:=Improvis;
+      5:TeacherArray[countTeachers+1].DanceDirection:=LadyHop;
+      6:TeacherArray[countTeachers+1].DanceDirection:=Plastic;
+      7:TeacherArray[countTeachers+1].DanceDirection:=Contemp;
+      8:TeacherArray[countTeachers+1].DanceDirection:=BalDance;
+      9:TeacherArray[countTeachers+1].DanceDirection:=VostokDance;
+      10:TeacherArray[countTeachers+1].DanceDirection:=SportAcro;
+    end;
   Left:=0;
   Top:=0;
   for i:=1 to countTeachers do
@@ -158,29 +194,20 @@ begin
           SportAcro: Item.SubItems.Add('Спортивная акроботика');
         end;
     end;
-end;
-
-
+  end;
 
 procedure TTableTeachersForm.readFromXmlFileClick(Sender: TObject);
 var
+  i: integer;
   PassNode : TDOMNode;
   Document : TXMLDocument;
   sIdTeacher,sNameTeacher,sAgeTeacher, sSerialPassTeacher, sNumberPassTeacher, sEmailTeacher, sTelephoneTeacher, sDanceDirectionTeacher : string;
-  i : integer;
   Element : TDOMNode;
   s: string;
 begin
   readXMLFile(Document,'dance_studio.xml');
   Element:=Document.FirstChild.FirstChild;
-  i := 1;
-  //sIdTeacher:=IntToStr(TeacherArray[i].idTeacher);
-  //      sNameTeacher:=TeacherArray[i].TeacherName;
-  //      sAgeTeacher:=IntToStr(TeacherArray[i].TeacherAge);
-  //      sSerialPassTeacher:=TeacherArray[i].SerialPassport;
-  //      sNumberPassTeacher:=IntToStr(TeacherArray[i].NumberPassport);
-  //      sEmailTeacher:=TeacherArray[i].TeacherEmail;
-  //      sTelephoneTeacher:=TeacherArray[i].TelephoneNumber;
+  i := 0;
   try
     try
       repeat
@@ -225,22 +252,116 @@ begin
       TeacherArray[i].NumberPassport:=StrToInt(sNumberPassTeacher);
       TeacherArray[i].TeacherEmail:=sEmailTeacher;
       TeacherArray[i].TelephoneNumber:=sTelephoneTeacher;
-      i:=i+1;
       countTeachers:=countTeachers+1;
       until Element = NIL;
     except
       ShowMessage('Ошибка чтения XML - файла!');
     end;
-  finally
+    finally
     Document.Free;
   end;
 end;
+
+procedure TTableTeachersForm.SaveNewInfoTeacherBtnClick(Sender: TObject);
+begin
+    if(NewDanceDirectionTeacher.ItemIndex = -1) or (NewTelephoneNumberTeacher.Text = '') then
+     begin
+       ShowMessage('Выберите стиль преподавателя!');
+     end else if(countTeachers >= maxCountTeachers) then ShowMessage('Достигнуто максимальное количество записей "Преподаватели"!') else
+      if(StrToInt(NewAgeTeacher.Text) < 18) then ShowMessage('Возраст преподавателя слишком мал!') else
+       begin
+         TeacherArray[numEditingRec].TeacherName:=NewNameTeacher.Text;
+         TeacherArray[numEditingRec].TeacherAge:=StrToInt(NewAgeTeacher.Text);
+         TeacherArray[numEditingRec].SerialPassport:=NewSerialPassTeacher.Text;
+         TeacherArray[numEditingRec].NumberPassport:=StrToInt(NewNumberPassTeacher.Text);
+         TeacherArray[numEditingRec].TeacherEmail:=NewEmailTeacher.Text;
+         TeacherArray[numEditingRec].TelephoneNumber:=NewTelephoneNumberTeacher.Text;
+         case NewDanceDirectionTeacher.ItemIndex of
+           0:TeacherArray[numEditingRec].DanceDirection:=HipHop;
+           1:TeacherArray[numEditingRec].DanceDirection:=Krump;
+           2:TeacherArray[numEditingRec].DanceDirection:=JFunk;
+           3:TeacherArray[numEditingRec].DanceDirection:=Break;
+           4:TeacherArray[numEditingRec].DanceDirection:=Improvis;
+           5:TeacherArray[numEditingRec].DanceDirection:=LadyHop;
+           6:TeacherArray[numEditingRec].DanceDirection:=Plastic;
+           7:TeacherArray[numEditingRec].DanceDirection:=Contemp;
+           8:TeacherArray[numEditingRec].DanceDirection:=BalDance;
+           9:TeacherArray[numEditingRec].DanceDirection:=VostokDance;
+           10:TeacherArray[numEditingRec].DanceDirection:=SportAcro;
+         end;
+
+         self.TeacherListView.Selected.SubItems[0] := (TeacherArray[numEditingRec].TeacherName);
+         self.TeacherListView.Selected.SubItems[1] := (IntToStr(TeacherArray[numEditingRec].TeacherAge));
+         self.TeacherListView.Selected.SubItems[2] := (TeacherArray[numEditingRec].SerialPassport);
+         self.TeacherListView.Selected.SubItems[3] := (IntToStr(TeacherArray[numEditingRec].NumberPassport));
+         self.TeacherListView.Selected.SubItems[4] := (TeacherArray[numEditingRec].TeacherEmail);
+         self.TeacherListView.Selected.SubItems[5] := (TeacherArray[numEditingRec].TelephoneNumber);
+         case TeacherArray[numEditingRec].DanceDirection of
+             HipHop: Item.SubItems[6] := 'Хип-Хоп';
+             Krump: Item.SubItems[6] := 'Крамп';
+             JFunk: Item.SubItems[6] := 'Джазз-Фанк';
+             Break: Item.SubItems[6] := 'Брейкданс';
+             Improvis: Item.SubItems[6] :='Импровизация';
+             LadyHop: Item.SubItems[6] := 'Лэдис Хип-Хоп';
+             Plastic: Item.SubItems[6] := 'Стрип-Пластика';
+             Contemp: Item.SubItems[6] := 'Контемпорари';
+             BalDance: Item.SubItems[6] := 'Бальные танцы';
+             VostokDance: Item.SubItems[6] := 'Восточные танцы';
+             SportAcro: Item.SubItems[6] := 'Спортивная акроботика';
+           end;
+            ShowMessage('Данные успешно сохранены!');
+            TableTeachersForm.Height:=165;
+            TableTeachersForm.Width:=1015;
+       end;
+end;
+
 
 procedure TTableTeachersForm.saveToXmlFileClick(Sender: TObject);
 begin
   copyTeacherArray := TeacherArray;
   MyThread := TMyThread.Create(TeacherArray);
   MyThread.Execute;
+end;
+
+procedure TTableTeachersForm.TeacherListViewDblClick(Sender: TObject);
+var i : integer;
+begin
+
+   if(countTeachers = 0) then
+    begin
+      ShowMessage('Изменение невозможно: таблица пуста.');
+    end else
+    begin
+     TableTeachersForm.Height:=260;
+     TableTeachersForm.Width:=1015;
+     NumberIdLabel.Caption:=self.TeacherListView.Selected.Caption;
+     NewNameTeacher.Text:=self.TeacherListView.Selected.SubItems[0];
+     NewAgeTeacher.Text:=self.TeacherListView.Selected.SubItems[1];
+     NewSerialPassTeacher.Text:=self.TeacherListView.Selected.SubItems[2];
+     NewNumberPassTeacher.Text:=self.TeacherListView.Selected.SubItems[3];
+     NewEmailTeacher.Text:=self.TeacherListView.Selected.SubItems[4];
+     NewTelephoneNumberTeacher.Text:=self.TeacherListView.Selected.SubItems[5];
+       case NewDanceDirectionTeacher.ItemIndex of
+        0:TeacherArray[numEditingRec].DanceDirection:=HipHop;
+        1:TeacherArray[numEditingRec].DanceDirection:=Krump;
+        2:TeacherArray[numEditingRec].DanceDirection:=JFunk;
+        3:TeacherArray[numEditingRec].DanceDirection:=Break;
+        4:TeacherArray[numEditingRec].DanceDirection:=Improvis;
+        5:TeacherArray[numEditingRec].DanceDirection:=LadyHop;
+        6:TeacherArray[numEditingRec].DanceDirection:=Plastic;
+        7:TeacherArray[numEditingRec].DanceDirection:=Contemp;
+        8:TeacherArray[numEditingRec].DanceDirection:=BalDance;
+        9:TeacherArray[numEditingRec].DanceDirection:=VostokDance;
+        10:TeacherArray[numEditingRec].DanceDirection:=SportAcro;
+      end;
+    end;
+   for i:= 1 to countTeachers do
+ begin
+   if(IntToStr(TeacherArray[i].idTeacher) = TeacherListView.Selected.Caption) then
+    begin
+      numEditingRec:=i;
+    end;
+ end;
 end;
 
 procedure TTableTeachersForm.TeacherListViewDragDrop(Sender, Source: TObject;
@@ -265,106 +386,6 @@ begin
     end;
 end;
 
-//function Scale(Value: longint; Size: integer): longint;
-//begin
-// if SIze > 100 then
-//  Size := 100
-// else if Size < 0 then
-//  Size := 0;
-//
-// if Size = 0 then
-//  Result := Value
-// else
-//  Result := Value + MulDiv(Value, Size, 100);
-//end;
-//
-//procedure PrintListView(intro:String; lwToSave:TListView);
-//var
-// LinesHeight, LineShift, WordWidth, ListViewWordWidth, LineWidth, CellWidth: Longint;
-// iTop, iLeft, i, row:Integer;
-// TextRect: TRect;
-//begin
-// with TPrintDialog.Create(nil) do
-//  begin
-//    Options := [poWarning];
-//  if not Execute then
-//    exit;
-//   Free;
-//  end;
-// Printer.Title := intro;
-// Printer.BeginDoc;
-// Printer.Canvas.Font.Assign(lwToSave.Font);
-// LinesHeight := Scale(Printer.Canvas.TextHeight('M'), 20);
-// LineShift := (LinesHeight-Printer.Canvas.TextHeight('M')) div 2;
-// WordWidth := Printer.Canvas.TextWidth('0');
-// ListViewWordWidth := lwToSave.Canvas.TextWidth('0');
-//
-// iTop:=LinesHeight*2;
-// LineWidth:=0;
-//
-// // Print Header
-// Printer.Canvas.Font.Style:=[fsBold];
-// iLeft := WordWidth*5;
-// Printer.Canvas.MoveTo(iLeft, iTop);
-// Printer.Canvas.LineTo(iLeft, iTop+LinesHeight);
-// for i := 0 to lwToSave.Columns.Count - 1 do
-//  begin
-//   Printer.Canvas.TextOut(iLeft+LineShift, iTop+LineShift, lwToSave.Columns[i].Caption);
-//
-//   CellWidth:=LineShift*2+lwToSave.Columns[i].Width*WordWidth div ListViewWordWidth;
-//   LineWidth:=LineWidth+CellWidth;
-//   iLeft := iLeft+CellWidth;
-//
-//   Printer.Canvas.MoveTo(iLeft, iTop);
-//   Printer.Canvas.LineTo(iLeft, iTop+LinesHeight);
-//  end;
-//
-// iLeft := WordWidth*5;
-// Printer.Canvas.MoveTo(iLeft, iTop);
-// Printer.Canvas.LineTo(iLeft+LineWidth, iTop);
-// Printer.Canvas.MoveTo(iLeft, iTop+LinesHeight);
-// Printer.Canvas.LineTo(iLeft+LineWidth, iTop+LinesHeight);
-//
-// // Print rows
-// Printer.Canvas.Font.Style:=[];
-// for row := 0 to lwToSave.Items.Count - 1 do
-//  begin
-//   iTop:=iTop+LinesHeight;
-//
-//   // new page
-//   if iTop>Printer.PageHeight-LinesHeight*3 then
-//    begin
-//     iTop:=LinesHeight*2;
-//     Printer.NewPage;
-//    end;
-//
-//
-//   Printer.Canvas.MoveTo(iLeft, iTop);
-//   Printer.Canvas.LineTo(iLeft, iTop+LinesHeight);
-//   for i := 0 to lwToSave.Columns.Count - 1 do
-//    begin
-//     CellWidth:=LineShift*2+lwToSave.Columns[i].Width*WordWidth div ListViewWordWidth;
-//     //TextRect:=Rect((iLeft+LineShift), (iTop+LineShift), (iLeft+LineShift+CellWidth), (iTop+LineShift+LinesHeight));
-//     if i=0 then
-//      Intro:=lwToSave.Items[row].Caption
-//     else
-//      Intro:=lwToSave.Items[row].SubItems[i-1];
-//     Printer.Canvas.TextRect(TextRect,1 ,1,Intro);
-//
-//     iLeft := iLeft+CellWidth;
-//
-//     Printer.Canvas.MoveTo(iLeft, iTop);
-//     Printer.Canvas.LineTo(iLeft, iTop+LinesHeight);
-//    end;
-//
-//   iLeft := WordWidth*5;
-//   Printer.Canvas.MoveTo(iLeft, iTop);
-//   Printer.Canvas.LineTo(iLeft+LineWidth, iTop);
-//   Printer.Canvas.MoveTo(iLeft, iTop+LinesHeight);
-//   Printer.Canvas.LineTo(iLeft+LineWidth, iTop+LinesHeight);
-//  end;
-// Printer.EndDoc;
-//end;
 
 procedure TTableTeachersForm.TeacherListViewDragOver(Sender, Source: TObject;
   X, Y: Integer; State: TDragState; var Accept: Boolean);
@@ -396,78 +417,245 @@ begin
     end;
 end;
 
-procedure TTableTeachersForm.addLineBtnClick(Sender: TObject);
+
+procedure TTableTeachersForm.ReadFromXMLClick(Sender: TObject);
+var
+  i: integer;
+  PassNode : TDOMNode;
+  Document : TXMLDocument;
+  sIdTeacher,sNameTeacher,sAgeTeacher, sSerialPassTeacher, sNumberPassTeacher, sEmailTeacher, sTelephoneTeacher, sDanceDirectionTeacher : string;
+  Element : TDOMNode;
+  s: string;
 begin
-  addNewTeacherForm:=TaddNewTeacherForm.Create(self);
-  TableTeachersForm.InsertControl(addNewTeacherForm);
-  addNewTeacherForm.Show;
+  TeacherListView.Clear;
+  countTeachers:=0;
+  readXMLFile(Document,'dance_studio.xml');
+  Element:=Document.FirstChild.FirstChild;
+  i := 0;
+  try
+    try
+      repeat
+        s:=Element.NodeName;
+        sIdTeacher:=Element.Attributes.GetNamedItem('Teacher_ID').NodeValue;
+        sNameTeacher:=Element.Attributes.GetNamedItem('Teacher_Name').NodeValue;
+        sAgeTeacher:=Element.Attributes.GetNamedItem('Teacher_Age').NodeValue;
+        sSerialPassTeacher:=Element.Attributes.GetNamedItem('Teacher_SerialPassport').NodeValue;
+        sNumberPassTeacher:=Element.Attributes.GetNamedItem('Teacher_NumberPassport').NodeValue;
+        sEmailTeacher:=Element.Attributes.GetNamedItem('Teacher_Email').NodeValue;
+        sTelephoneTeacher:=Element.Attributes.GetNamedItem('Teacher_TelephoneNumber').NodeValue;
+        sDanceDirectionTeacher:=Element.Attributes.GetNamedItem('Style').NodeValue;
+       // if(sDanceDirectionTeacher =
+        i:=i+1;
+        Element:=Element.NextSibling;
+
+        Item := TeacherListView.Items.Add;
+        Item.Caption :=sIdTeacher;
+        Item.SubItems.Add(sNameTeacher);
+        Item.SubItems.Add(sAgeTeacher);
+        Item.SubItems.Add(sSerialPassTeacher);
+        Item.SubItems.Add(sNumberPassTeacher);
+        Item.SubItems.Add(sEmailTeacher);
+        Item.SubItems.Add(sTelephoneTeacher);
+          case TeacherArray[i].DanceDirection of
+            HipHop: Item.SubItems.Add('Хип-Хоп');
+            Krump: Item.SubItems.Add('Крамп');
+            JFunk: Item.SubItems.Add('Джазз-Фанк');
+            Break: Item.SubItems.Add('Брейкданс');
+            Improvis: Item.SubItems.Add('Импровизация');
+            LadyHop: Item.SubItems.Add('Лэдис Хип-Хоп');
+            Plastic: Item.SubItems.Add('Стрип-Пластика');
+            Contemp: Item.SubItems.Add('Контемпорари');
+            BalDance: Item.SubItems.Add('Бальные танцы');
+            VostokDance: Item.SubItems.Add('Восточные танцы');
+            SportAcro: Item.SubItems.Add('Спортивная акроботика');
+          end;
+      TeacherArray[i].idTeacher:=StrToInt(sIdTeacher);
+      TeacherArray[i].TeacherName:=sNameTeacher;
+      TeacherArray[i].TeacherAge:=StrToInt(sAgeTeacher);
+      TeacherArray[i].SerialPassport:=sSerialPassTeacher;
+      TeacherArray[i].NumberPassport:=StrToInt(sNumberPassTeacher);
+      TeacherArray[i].TeacherEmail:=sEmailTeacher;
+      TeacherArray[i].TelephoneNumber:=sTelephoneTeacher;
+      countTeachers:=countTeachers+1;
+      until Element = NIL;
+    except
+      ShowMessage('Ошибка чтения XML - файла!');
+    end;
+    finally
+    Document.Free;
+  end;
+    MainForm.restartStatClick;
 end;
 
-procedure TTableTeachersForm.Button1Click(Sender: TObject);
-var
-  printDialog    : TPrintDialog;
-  page, startPage, endPage : Integer;
+procedure TTableTeachersForm.CloseChangingPanelBtnClick(Sender: TObject);
 begin
-  // Создание диалога выбора принтера
-  printDialog := TPrintDialog.Create(TableTeachersForm);
-  // Создание диалога выбора принтера
-  printDialog := TPrintDialog.Create(TableTeachersForm);
+  TableTeachersForm.Height:=160;
+  TableTeachersForm.Width:=1015;
+end;
 
-  // Установка опций диалога печати
-  printDialog.MinPage := 1;
-  printDialog.MaxPage := TOTAL_PAGES;
-  printDialog.ToPage  := TOTAL_PAGES;
-  printDialog.Options := [poPageNums];
+procedure TTableTeachersForm.grpboxTeacherListViewClick(Sender: TObject);
+begin
 
-  // Если пользователь выбрал принтер (или значение по умолчанию), то печатаем!
-  if printDialog.Execute then
+end;
+
+//procedure TTableTeachersForm.FormClose(Sender: TObject;
+//  var CloseAction: TCloseAction);
+//begin
+//  copyTeacherArray := TeacherArray;
+//  MyThread := TMyThread.Create(TeacherArray);
+//  MyThread.Execute;
+//end;
+
+function Scale(Value: longint; Pct: integer): longint;
+begin
+ if Pct > 100 then
+  Pct := 100
+ else if Pct < 0 then
+  Pct := 0;
+
+ if Pct = 0 then
+  Result := Value
+ else
+  Result := Value + MulDiv(Value, Pct, 100);
+end;
+
+procedure PrintListView(intro:String; lwToSave:TListView);
+var
+ LinesHeight, LineShift, WordWidth, ListViewWordWidth,
+     LineWidth, CellWidth: Longint;
+ iTop, iLeft, i, row:Integer;
+ TextRect:TRect;
+begin
+ with TPrintDialog.Create(nil) do
   begin
-    // Используйте функцию Printer, чтобы получить доступ к глобальному объекту TPrinter.
-    // Set to landscape orientation
-    Printer.Orientation := poLandscape;
-
-    // Установите заголовок printjob - как оно появляется в менеджере задания по выводу на печать
-    Printer.Title := 'Printing...';
-
-    // Устанавливаем число копий для печати каждой страницы
-    Printer.Copies := printDialog.Copies;
-
-    // Начало печати
-    Printer.BeginDoc;
-
-    // Пользователь выбрал диапазон страниц?
-    if printDialog.PrintRange = prPageNums then
-    begin
-      startPage := printDialog.FromPage;
-      endPage   := printDialog.ToPage;
-    end
-    else // Все страницы
-    begin
-      startPage := 1;
-      endPage   := TOTAL_PAGES;
-    end;
-
-    // Установка номера начальной страницы
-    page := startPage;
-
-    // Продолжаем печатать пока всё OK
-    while (not Printer.Aborted) and Printer.Printing do
-    begin
-      // Пишем номер страницы
-      Printer.Canvas.Font.Color := clBlue;
-      Printer.Canvas.TextOut(40,  20, 'Page number = '+IntToStr(page));
-
-      // Увеличиваем номер страницы
-      Inc(page);
-
-      // Теперь начинаем новую страницу - если она не последняя
-      if (page <= endpage) and (not printer.aborted)
-      then Printer.NewPage;
-    end;
-
-    // Конец печати
-    Printer.EndDoc;
+    Options := [poWarning];
+      if not Execute then
+        exit;
+      Free;
   end;
+ Printer.Title := intro;
+ Printer.BeginDoc;
+ Printer.Canvas.Font.Assign(lwToSave.Font);
+ LinesHeight := Scale(Printer.Canvas.TextHeight('M'), 20);
+ LineShift := (LinesHeight-Printer.Canvas.TextHeight('M')) div 2;
+ WordWidth := Printer.Canvas.TextWidth('0');
+ ListViewWordWidth := lwToSave.Canvas.TextWidth('0');
+ iTop:=LinesHeight*2;
+ LineWidth:=0;
+ // Print Header
+ Printer.Canvas.Font.Style:=[fsBold];
+ iLeft := WordWidth*5;
+ Printer.Canvas.MoveTo(iLeft, iTop);
+ Printer.Canvas.LineTo(iLeft, iTop+LinesHeight);
+ for i := 0 to lwToSave.Columns.Count - 1 do
+  begin
+   Printer.Canvas.TextOut(iLeft+LineShift, iTop+LineShift, lwToSave.Columns[i].Caption);
+   CellWidth:=LineShift*2+lwToSave.Columns[i].Width*WordWidth div ListViewWordWidth;
+   LineWidth:=LineWidth+CellWidth;
+   iLeft := iLeft+CellWidth;
+   Printer.Canvas.MoveTo(iLeft, iTop);
+   Printer.Canvas.LineTo(iLeft, iTop+LinesHeight);
+  end;
+ iLeft := WordWidth*5;
+ Printer.Canvas.MoveTo(iLeft, iTop);
+ Printer.Canvas.LineTo(iLeft+LineWidth, iTop);
+ Printer.Canvas.MoveTo(iLeft, iTop+LinesHeight);
+ Printer.Canvas.LineTo(iLeft+LineWidth, iTop+LinesHeight);
+ // Print rows
+ Printer.Canvas.Font.Style:=[];
+ for row := 0 to lwToSave.Items.Count - 1 do
+  begin
+   iTop:=iTop+LinesHeight;
+   // new page
+   if iTop>Printer.PageHeight-LinesHeight*3 then
+    begin
+     iTop:=LinesHeight*2;
+     Printer.NewPage;
+    end;
+   Printer.Canvas.MoveTo(iLeft, iTop);
+   Printer.Canvas.LineTo(iLeft, iTop+LinesHeight);
+   for i := 0 to lwToSave.Items.Count - 1 do
+    begin
+     CellWidth:=LineShift*2+lwToSave.Columns[i].Width*WordWidth div ListViewWordWidth;
+     Printer.Canvas.TextOut(iLeft+LineShift, iTop+LineShift, lwToSave.Items[i].Caption);
+     Printer.Canvas.TextOut(iLeft+LineShift, iTop+LineShift, lwToSave.Items[i].SubItems[0]);
+     //Printer.Canvas.TextOut(iLeft+LineShift, iTop+LineShift, lwToSave.Items[i].SubItems[1]);
+     //Printer.Canvas.TextOut(iLeft+LineShift, iTop+LineShift, lwToSave.Items[i].SubItems[2]);
+     //Printer.Canvas.TextOut(iLeft+LineShift, iTop+LineShift, lwToSave.Items[i].SubItems[3]);
+     //Printer.Canvas.TextOut(iLeft+LineShift, iTop+LineShift, lwToSave.Items[i].SubItems[4]);
+     //Printer.Canvas.TextOut(iLeft+LineShift, iTop+LineShift, lwToSave.Items[i].SubItems[5]);
+     //Printer.Canvas.TextOut(iLeft+LineShift, iTop+LineShift, lwToSave.Items[i].SubItems[6]);
+     if i=0 then
+      Intro:=lwToSave.Items[row].Caption
+     else
+      Intro:=lwToSave.Items[row].SubItems[i-1];
+     Printer.Canvas.TextRect(TextRect,1 ,1,Intro);
+     iLeft := iLeft+CellWidth;
+     Printer.Canvas.MoveTo(iLeft, iTop);
+     Printer.Canvas.LineTo(iLeft, iTop+LinesHeight);
+    end;
+   iLeft := WordWidth*5;
+   Printer.Canvas.MoveTo(iLeft, iTop);
+   Printer.Canvas.LineTo(iLeft+LineWidth, iTop);
+   Printer.Canvas.MoveTo(iLeft, iTop+LinesHeight);
+   Printer.Canvas.LineTo(iLeft+LineWidth, iTop+LinesHeight);
+  end;
+ Printer.EndDoc;
+end;
+
+procedure TTableTeachersForm.PrintBtnClick(Sender: TObject);
+begin
+  PrintListView('Printing', TeacherListView);
+end;
+
+procedure TTableTeachersForm.changeLineBtnClick(Sender: TObject);
+var i : integer;
+begin
+  if(countTeachers = 0) then ShowMessage('Изменение невозможно: таблица пуста.') else
+    begin
+      if(TeacherListView.Selected = NIL) then
+        begin
+          ShowMessage('Не выбрано поле для изменения!');
+        end else
+  if(flag = false) then
+   begin
+     NumberIdLabel.Caption:=self.TeacherListView.Selected.Caption;
+     NewNameTeacher.Text:=self.TeacherListView.Selected.SubItems[0];
+     NewAgeTeacher.Text:=self.TeacherListView.Selected.SubItems[1];
+     NewSerialPassTeacher.Text:=self.TeacherListView.Selected.SubItems[2];
+     NewNumberPassTeacher.Text:=self.TeacherListView.Selected.SubItems[3];
+     NewEmailTeacher.Text:=self.TeacherListView.Selected.SubItems[4];
+     NewTelephoneNumberTeacher.Text:=self.TeacherListView.Selected.SubItems[5];
+     case NewDanceDirectionTeacher.ItemIndex of
+      0:TeacherArray[numEditingRec].DanceDirection:=HipHop;
+      1:TeacherArray[numEditingRec].DanceDirection:=Krump;
+      2:TeacherArray[numEditingRec].DanceDirection:=JFunk;
+      3:TeacherArray[numEditingRec].DanceDirection:=Break;
+      4:TeacherArray[numEditingRec].DanceDirection:=Improvis;
+      5:TeacherArray[numEditingRec].DanceDirection:=LadyHop;
+      6:TeacherArray[numEditingRec].DanceDirection:=Plastic;
+      7:TeacherArray[numEditingRec].DanceDirection:=Contemp;
+      8:TeacherArray[numEditingRec].DanceDirection:=BalDance;
+      9:TeacherArray[numEditingRec].DanceDirection:=VostokDance;
+      10:TeacherArray[numEditingRec].DanceDirection:=SportAcro;
+    end;
+     flag:=false;
+     TableTeachersForm.Height:=260;
+     TableTeachersForm.Width:=1015;
+   end else if(flag = true) then
+   begin
+     flag:=false;
+     TableTeachersForm.Height:=160;
+     TableTeachersForm.Width:=1015;
+   end;
+end;
+for i:= 1 to countTeachers do
+ begin
+   if(IntToStr(TeacherArray[i].idTeacher) = TeacherListView.Selected.Caption) then
+    begin
+      numEditingRec:=i;
+    end;
+ end;
 end;
 
 procedure TTableTeachersForm.TeacherListViewSelectItem(Sender: TObject;

@@ -43,7 +43,7 @@
         <PackageName Value="LCL"/>
       </Item4>
     </RequiredPackages>
-    <Units Count="10">
+    <Units Count="11">
       <Unit0>
         <Filename Value="DanceStudio.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -59,7 +59,7 @@
       <Unit2>
         <Filename Value="addnewchildgrpunit.pas"/>
         <IsPartOfProject Value="True"/>
-        <ComponentName Value="addNewChildGrpForm"/>
+        <ComponentName Value="addNewGrpForm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="addNewChildGrpUnit"/>
@@ -113,6 +113,14 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="tableChildGrpUnit"/>
       </Unit9>
+      <Unit10>
+        <Filename Value="tableclientunit.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="TableAbnForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="tableClientUnit"/>
+      </Unit10>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

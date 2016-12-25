@@ -5,10 +5,10 @@ unit MainMenu;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, DateTimePicker, Forms, Controls, Graphics,
-  Dialogs, Menus, StdCtrls, ExtCtrls, ComCtrls, ButtonPanel, IniFiles,
+  Classes, SysUtils, FileUtil, Forms, Controls, Graphics,
+  Dialogs, Menus, StdCtrls, ExtCtrls, ComCtrls, IniFiles,
   addNewChildGrpUnit, addNewTeacherUnit, settingsUnit,
-  tableTeacherUnit, addNewChildAbnUnit, tableChildGrpUnit;
+  tableTeacherUnit, addNewChildAbnUnit, tableChildGrpUnit, tableClientUnit;
 
 type
 
@@ -56,6 +56,7 @@ type
     procedure ListBoxMemoClick(Sender: TObject);
     procedure MemoNotesChange(Sender: TObject);
     procedure MemoWindowChange(Sender: TObject);
+    procedure OpenListAbnClick(Sender: TObject);
     procedure OpenListGrpClick(Sender: TObject);
     procedure OpenManTableClick(Sender: TObject);
     procedure OpenListTeachersClick(Sender: TObject);
@@ -135,17 +136,18 @@ begin
 
 end;
 
+procedure TMainForm.OpenListAbnClick(Sender: TObject);
+begin
+  TableAbnForm:=TTableAbnForm.Create(self);
+  MainForm.InsertControl(TableAbnForm);
+  TableAbnForm.Show;
+end;
+
 procedure TMainForm.OpenListGrpClick(Sender: TObject);
 begin
-  if(countTeachers = 0) then
-  begin
-    ShowMessage('В базе данных нет преподавателей, создайте их!');
-  end else
-  begin
-    ListAllGrpForm:=TListAllGrpForm.Create(self);
-    MainForm.InsertControl(ListAllGrpForm);
-    ListAllGrpForm.Show;
-  end;
+  ListAllGrpForm:=TListAllGrpForm.Create(self);
+  MainForm.InsertControl(ListAllGrpForm);
+  ListAllGrpForm.Show;
 end;
 
 procedure TMainForm.OpenManTableClick(Sender: TObject);
@@ -187,9 +189,9 @@ begin
     ShowMessage('В базе данных нет преподавателей, создайте их!');
   end else
   begin
-    addNewChildGrpForm:= TaddNewChildGrpForm.Create(self);
-    MainForm.InsertControl(addNewChildGrpForm);
-    addNewChildGrpForm.Show;
+    addNewGrpForm:= TaddNewGrpForm.Create(self);
+    MainForm.InsertControl(addNewGrpForm);
+    addNewGrpForm.Show;
   end;
 end;
 
@@ -266,9 +268,12 @@ end;
 
 procedure TMainForm.CreateNewAbnClick(Sender: TObject);
 begin
-  if(countTeachers = 0) then
+  if(countTeachers = 0)  then
   begin
-    ShowMessage('В базе данных нет преподавателей, создайте их!');
+    ShowMessage('В базе данных нет ни преподавателей, ни групп - создайте их!');
+  end else if(numChildGrp = 0) then
+  begin
+    ShowMessage('В базе данных нет групп, создайт их!');
   end else
   begin
     addNewAbnForm:=TaddNewAbnForm.Create(self);
@@ -276,8 +281,6 @@ begin
     addNewAbnForm.Show;
   end;
 end;
-
-
 
 procedure TMainForm.FormClose(Sender: TObject);
 begin
