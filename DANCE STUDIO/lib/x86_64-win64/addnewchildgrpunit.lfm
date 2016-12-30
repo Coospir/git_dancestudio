@@ -1,0 +1,89 @@
+object addNewGrpForm: TaddNewGrpForm
+  Left = 190
+  Height = 163
+  Top = 139
+  Width = 330
+  BorderStyle = bsDialog
+  Caption = 'Новая группа'
+  ClientHeight = 163
+  ClientWidth = 330
+  OnCreate = FormCreate
+  OnShow = FormShow
+  Position = poMainFormCenter
+  LCLVersion = '1.6.2.0'
+  object btnSaveChildGrp: TButton
+    Left = 0
+    Height = 41
+    Top = 122
+    Width = 330
+    Align = alBottom
+    Caption = 'Сохранить'
+    Font.CharSet = RUSSIAN_CHARSET
+    Font.Height = -12
+    Font.Name = 'Century Gothic'
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    OnClick = btnSaveChildGrpClick
+    ParentFont = False
+    TabOrder = 0
+  end
+  object NameGroupChildLabeledEdit: TLabeledEdit
+    Left = 16
+    Height = 25
+    Top = 24
+    Width = 304
+    EditLabel.AnchorSideLeft.Control = NameGroupChildLabeledEdit
+    EditLabel.AnchorSideRight.Control = NameGroupChildLabeledEdit
+    EditLabel.AnchorSideRight.Side = asrBottom
+    EditLabel.AnchorSideBottom.Control = NameGroupChildLabeledEdit
+    EditLabel.Left = 16
+    EditLabel.Height = 17
+    EditLabel.Top = 4
+    EditLabel.Width = 304
+    EditLabel.Caption = 'Введите название детской группы'
+    EditLabel.ParentColor = False
+    EditLabel.ParentFont = False
+    EditLabel.Font.CharSet = RUSSIAN_CHARSET
+    EditLabel.Font.Height = -12
+    EditLabel.Font.Name = 'Century Gothic'
+    EditLabel.Font.Pitch = fpVariable
+    EditLabel.Font.Quality = fqDraft
+    Font.CharSet = RUSSIAN_CHARSET
+    Font.Height = -12
+    Font.Name = 'Century Gothic'
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    MaxLength = 50
+    ParentFont = False
+    TabOrder = 1
+  end
+  object changeTeacherChildGrp: TComboBox
+    Left = 16
+    Height = 25
+    Top = 80
+    Width = 304
+    Font.CharSet = RUSSIAN_CHARSET
+    Font.Height = -12
+    Font.Name = 'Century Gothic'
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    ItemHeight = 17
+    ParentFont = False
+    Style = csDropDownList
+    TabOrder = 2
+  end
+  object addTeacherForChildGrpLabel: TLabel
+    Left = 16
+    Height = 17
+    Top = 64
+    Width = 200
+    Caption = 'Выберите преподавателя группы:'
+    Font.CharSet = RUSSIAN_CHARSET
+    Font.Height = -12
+    Font.Name = 'Century Gothic'
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    ParentColor = False
+    ParentFont = False
+  end
+end

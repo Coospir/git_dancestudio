@@ -1,0 +1,56 @@
+object addNewManGrpForm: TaddNewManGrpForm
+  Left = 454
+  Height = 163
+  Top = 288
+  Width = 333
+  BorderStyle = bsDialog
+  Caption = 'Добавление взрослой группы'
+  ClientHeight = 163
+  ClientWidth = 333
+  OnCreate = FormCreate
+  LCLVersion = '1.6.0.4'
+  object btnSaveManGrp: TButton
+    Left = 0
+    Height = 41
+    Top = 122
+    Width = 333
+    Align = alBottom
+    Caption = 'Сохранить'
+    OnClick = btnSaveManGrpClick
+    TabOrder = 0
+  end
+  object NameGroupManLabeledEdit: TLabeledEdit
+    Left = 16
+    Height = 23
+    Top = 24
+    Width = 304
+    EditLabel.AnchorSideLeft.Control = NameGroupManLabeledEdit
+    EditLabel.AnchorSideRight.Control = NameGroupManLabeledEdit
+    EditLabel.AnchorSideRight.Side = asrBottom
+    EditLabel.AnchorSideBottom.Control = NameGroupManLabeledEdit
+    EditLabel.Left = 16
+    EditLabel.Height = 15
+    EditLabel.Top = 6
+    EditLabel.Width = 304
+    EditLabel.Caption = 'Введите название взрослой группы'
+    EditLabel.ParentColor = False
+    TabOrder = 1
+  end
+  object changeTeacherManGrp: TComboBox
+    Left = 16
+    Height = 23
+    Top = 80
+    Width = 304
+    ItemHeight = 15
+    Style = csDropDownList
+    TabOrder = 2
+  end
+  object addTeacherForManGrpLabel: TLabel
+    Left = 16
+    Height = 15
+    Top = 64
+    Width = 186
+    Caption = 'Выберите преподавателя группы:'
+    ParentColor = False
+  end
+end

@@ -1,0 +1,60 @@
+object addNewChildGrpForm: TaddNewChildGrpForm
+  Left = 471
+  Height = 163
+  Top = 228
+  Width = 330
+  BorderStyle = bsDialog
+  Caption = 'Добавление детской группы'
+  ClientHeight = 163
+  ClientWidth = 330
+  OnCreate = FormCreate
+  OnShow = FormShow
+  Position = poMainFormCenter
+  LCLVersion = '1.6.0.4'
+  object btnSaveChildGrp: TButton
+    Left = 0
+    Height = 41
+    Top = 122
+    Width = 330
+    Align = alBottom
+    Caption = 'Сохранить'
+    OnClick = btnSaveChildGrpClick
+    TabOrder = 0
+  end
+  object NameGroupChildLabeledEdit: TLabeledEdit
+    Left = 16
+    Height = 23
+    Top = 24
+    Width = 304
+    EditLabel.AnchorSideLeft.Control = NameGroupChildLabeledEdit
+    EditLabel.AnchorSideRight.Control = NameGroupChildLabeledEdit
+    EditLabel.AnchorSideRight.Side = asrBottom
+    EditLabel.AnchorSideBottom.Control = NameGroupChildLabeledEdit
+    EditLabel.Left = 16
+    EditLabel.Height = 15
+    EditLabel.Top = 6
+    EditLabel.Width = 304
+    EditLabel.Caption = 'Введите название детской группы'
+    EditLabel.ParentColor = False
+    MaxLength = 50
+    TabOrder = 1
+  end
+  object changeTeacherChildGrp: TComboBox
+    Left = 16
+    Height = 23
+    Top = 80
+    Width = 304
+    ItemHeight = 15
+    OnChange = changeTeacherChildGrpChange
+    Style = csDropDownList
+    TabOrder = 2
+  end
+  object addTeacherForChildGrpLabel: TLabel
+    Left = 16
+    Height = 15
+    Top = 64
+    Width = 186
+    Caption = 'Выберите преподавателя группы:'
+    ParentColor = False
+  end
+end

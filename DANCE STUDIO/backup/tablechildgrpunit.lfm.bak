@@ -1,0 +1,34 @@
+object TableChildGrpForm: TTableChildGrpForm
+  Left = 167
+  Height = 240
+  Top = 157
+  Width = 1063
+  BorderStyle = bsDialog
+  Caption = 'Список детских групп'
+  ClientHeight = 240
+  ClientWidth = 1063
+  OnCreate = FormCreate
+  LCLVersion = '1.6.0.4'
+  object ChildGrpListView: TListView
+    Left = 8
+    Height = 184
+    Top = 8
+    Width = 1040
+    AutoWidthLastColumn = True
+    Columns = <    
+      item
+        AutoSize = True
+        Caption = 'НАЗВАНИЕ ГРУППЫ'
+        Width = 125
+      end    
+      item
+        AutoSize = True
+        Caption = 'ПРЕПОДАВАТЕЛЬ'
+        Width = 911
+      end>
+    GridLines = True
+    ReadOnly = True
+    TabOrder = 0
+    ViewStyle = vsReport
+  end
+end

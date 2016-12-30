@@ -1,0 +1,115 @@
+object MainForm: TMainForm
+  Left = 645
+  Height = 308
+  Top = 46
+  Width = 661
+  BorderStyle = bsToolWindow
+  BorderWidth = 5
+  Caption = 'Dance Studio'
+  ClientHeight = 308
+  ClientWidth = 661
+  Menu = MainMenu1
+  OnClose = FormClose
+  OnCreate = FormCreate
+  Position = poDefault
+  LCLVersion = '1.6.0.4'
+  object childGrpStatistic: TLabel
+    Left = 8
+    Height = 17
+    Top = 80
+    Width = 192
+    Caption = 'Количество детских групп: '
+    ParentColor = False
+  end
+  object restartStat: TButton
+    Left = 8
+    Height = 25
+    Top = 128
+    Width = 131
+    Caption = 'Обновить статистику'
+    OnClick = restartStatClick
+    TabOrder = 0
+  end
+  object manGrpStatistic: TLabel
+    Left = 8
+    Height = 17
+    Top = 104
+    Width = 204
+    Caption = 'Количество взрослых групп: '
+    ParentColor = False
+  end
+  object MainMenu1: TMainMenu
+    left = 24
+    top = 8
+    object Groups: TMenuItem
+      Caption = 'Группы'
+      object childGrp: TMenuItem
+        Caption = 'Детские'
+        object CreateNewChildGrp: TMenuItem
+          Caption = 'Создать новую группу'
+          OnClick = CreateNewChildGrpClick
+        end
+        object AddNewChildAbn: TMenuItem
+          Caption = 'Добавить абонемент'
+        end
+        object DeleteChildGrp: TMenuItem
+          Caption = 'Удалить группу'
+        end
+        object OpenChildTable: TMenuItem
+          Caption = 'Список детских групп'
+        end
+      end
+      object manGrp: TMenuItem
+        Caption = 'Взрослые'
+        object CreateNewManGr: TMenuItem
+          Caption = 'Создать новую группу'
+          OnClick = CreateNewManGrClick
+        end
+        object CreateNewManGrp: TMenuItem
+          Caption = 'Добавить абонемент'
+        end
+        object DeleteManGrp: TMenuItem
+          Caption = 'Удалить группу'
+        end
+        object OpenManTable: TMenuItem
+          Caption = 'Список взрослых групп'
+        end
+      end
+    end
+    object danceTeachers: TMenuItem
+      Caption = 'Преподаватели'
+      OnClick = danceTeachersClick
+      object addNewTeacher: TMenuItem
+        Caption = 'Добавить нового преподавателя'
+        object addNewChildGrpTeacher: TMenuItem
+          Caption = 'Детская группа'
+        end
+        object addNewManGrpTeacher: TMenuItem
+          Caption = 'Взрослая группа'
+        end
+      end
+      object deleteTeacher: TMenuItem
+        Caption = 'Удалить преподавателя'
+      end
+      object watchTeachers: TMenuItem
+        Caption = 'Список преподавателей'
+      end
+    end
+    object danceDirection: TMenuItem
+      Caption = 'Танцевальные направления'
+      object addDanceDirection: TMenuItem
+        Caption = 'Добавить направление'
+      end
+      object deleteDanceDirection: TMenuItem
+        Caption = 'Удалить направление'
+      end
+      object watchDanceDirection: TMenuItem
+        Caption = 'Список направлений'
+      end
+    end
+    object addSettings: TMenuItem
+      Caption = 'Настройки'
+      OnClick = addSettingsClick
+    end
+  end
+end

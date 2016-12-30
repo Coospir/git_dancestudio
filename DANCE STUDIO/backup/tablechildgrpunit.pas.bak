@@ -1,0 +1,47 @@
+unit tableChildGrpUnit;
+
+{$mode objfpc}{$H+}
+
+interface
+
+uses
+  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ComCtrls;
+
+type
+
+  { TTableChildGrpForm }
+
+  TTableChildGrpForm = class(TForm)
+    ChildGrpListView: TListView;
+    procedure FormCreate(Sender: TObject);
+  private
+    { private declarations }
+  public
+    { public declarations }
+  end;
+
+var
+  TableChildGrpForm: TTableChildGrpForm;
+  Item : TListItem;
+implementation
+uses addNewChildGrpUnit, addNewTeacherUnit;
+{$R *.lfm}
+
+{ TTableChildGrpForm }
+
+procedure TTableChildGrpForm.FormCreate(Sender: TObject);
+var i : integer;
+begin
+  Left:=0;
+  Top:=0;
+  for i:=1 to countChildGrp do
+  begin
+    Item:=ChildGrpListView.Items.Add;
+    Item.Caption:=grpChildArr[i].nameGrp;
+    Item.SubItems.Add(TeacherArray[i].TeacherName);
+  end;
+
+end;
+
+end.
+

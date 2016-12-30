@@ -1,0 +1,30 @@
+object addNewChildGrpForm: TaddNewChildGrpForm
+  Left = 333
+  Height = 237
+  Top = 149
+  Width = 289
+  BorderStyle = bsDialog
+  Caption = 'Добавление группы'
+  ClientHeight = 237
+  ClientWidth = 289
+  OnCreate = FormCreate
+  Position = poMainFormCenter
+  LCLVersion = '1.6.0.4'
+  object btnSaveChildGrp: TButton
+    Left = 0
+    Height = 41
+    Top = 0
+    Width = 289
+    Align = alTop
+    Caption = 'Сохранить'
+    OnClick = btnSaveChildGrpClick
+    TabOrder = 0
+  end
+  object nameChildGrpEdit: TEdit
+    Left = 16
+    Height = 23
+    Top = 72
+    Width = 80
+    TabOrder = 1
+  end
+end

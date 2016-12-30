@@ -37,6 +37,8 @@ type
     btnForFunctions: TTabSheet;
     TeacherListView: TListView;
     procedure CloseChangingPanelBtnClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
+    procedure FormShow(Sender: TObject);
     procedure ReadFromXMLClick(Sender: TObject);
     procedure grpboxTeacherListViewClick(Sender: TObject);
    // procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -44,7 +46,6 @@ type
     procedure changeLineBtnClick(Sender: TObject);
     procedure delTeacherClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure readFromXmlFileClick(Sender: TObject);
     procedure SaveNewInfoTeacherBtnClick(Sender: TObject);
     procedure saveToXmlFileClick(Sender: TObject);
     procedure TeacherListViewDblClick(Sender: TObject);
@@ -62,22 +63,10 @@ type
     { public declarations }
   end;
 
-type
-    TMyThread = class(TThread)
-    private
-      //cpTeacherArray : cTeacherArray;
-      procedure successSaveXML();
-      procedure errorSaveXML();
-    public
-      constructor Create(var copyTeacherArray : cTeacherArray);
-    protected
-      procedure Execute; override;
-    end;
 
 var
   TableTeachersForm: TTableTeachersForm;
   Item : TListItem;
-  MyThread : TMyThread;
   flag : boolean;
 
 implementation
@@ -87,63 +76,6 @@ uses MainMenu;
 
 { TTableTeachersForm }
 
-procedure TMyThread.successSaveXML;
-begin
-  ShowMessage('Записано в файл: ' + 'dance_studio.xml');
-end;
-
-procedure TMyThread.errorSaveXML;
-begin
-  ShowMessage('Пустая таблица!');
-end;
-
-constructor TMyThread.Create(var copyTeacherArray : cTeacherArray);
-begin
-  copyTeacherArray := TeacherArray;
-end;
-
-procedure TMyThread.Execute();
-var RootNode, ElementNode, ItemNode, TextNode, PassNode : TDOMNode;
-    Document : TXMLDocument;
-    i : integer;
-  begin
-    if countTeachers <> 0 then
-  begin
-    Document:=TXMLDocument.Create;
-    with Document do
-    begin
-      ElementNode:=Document.CreateElement('Element');
-      for i:= 1 to countTeachers do
-        begin
-          ItemNode:=Document.CreateElement('Teacher_Information');
-          TDOMElement(ItemNode).SetAttribute('Teacher_ID', IntToStr(TeacherArray[i].idTeacher));
-          TDOMElement(ItemNode).SetAttribute('Teacher_Name', TeacherArray[i].TeacherName);
-          TDOMElement(ItemNode).SetAttribute('Teacher_Age', IntToStr(TeacherArray[i].TeacherAge));
-          TDOMElement(ItemNode).SetAttribute('Teacher_SerialPassport', TeacherArray[i].SerialPassport);
-          TDOMElement(ItemNode).SetAttribute('Teacher_NumberPassport', IntToStr(TeacherArray[i].NumberPassport));
-          TDOMElement(ItemNode).SetAttribute('Teacher_Email', TeacherArray[i].TeacherEmail);
-          TDOMElement(ItemNode).SetAttribute('Teacher_TelephoneNumber', TeacherArray[i].TelephoneNumber);
-          case TeacherArray[i].DanceDirection of
-               HipHop: TDOMElement(ItemNode).SetAttribute('Style','HipHop');
-               Krump: TDOMElement(ItemNode).SetAttribute('Style','Krump');
-               JFunk: TDOMElement(ItemNode).SetAttribute('Style','JazzFunk');
-               Break: TDOMElement(ItemNode).SetAttribute('Style','Breakdance');
-               Improvis: TDOMElement(ItemNode).SetAttribute('Style','Improvisation');
-               LadyHop: TDOMElement(ItemNode).SetAttribute('Style','LadyHop');
-               Plastic: TDOMElement(ItemNode).SetAttribute('Style','PlasticDance');
-               Contemp: TDOMElement(ItemNode).SetAttribute('Style','Contemporary');
-               BalDance: TDOMElement(ItemNode).SetAttribute('Style','BalDance');
-               VostokDance: TDOMElement(ItemNode).SetAttribute('Style','VostokDance');
-               SportAcro: TDOMElement(ItemNode).SetAttribute('Style','SportAcrobatics');
-          end;
-          ElementNode.AppendChild(ItemNode);
-        end;
-    end;
-    Document.AppendChild(ElementNode);
-    writeXMLFile(Document, 'dance_studio.xml');
-    Synchronize(@successSaveXML);
-  end else Synchronize(@errorSaveXML);
-end;
 
 procedure TTableTeachersForm.FormCreate(Sender: TObject);
 var
@@ -196,71 +128,6 @@ begin
     end;
   end;
 
-procedure TTableTeachersForm.readFromXmlFileClick(Sender: TObject);
-var
-  i: integer;
-  PassNode : TDOMNode;
-  Document : TXMLDocument;
-  sIdTeacher,sNameTeacher,sAgeTeacher, sSerialPassTeacher, sNumberPassTeacher, sEmailTeacher, sTelephoneTeacher, sDanceDirectionTeacher : string;
-  Element : TDOMNode;
-  s: string;
-begin
-  readXMLFile(Document,'dance_studio.xml');
-  Element:=Document.FirstChild.FirstChild;
-  i := 0;
-  try
-    try
-      repeat
-        s:=Element.NodeName;
-        sIdTeacher:=Element.Attributes.GetNamedItem('Teacher_ID').NodeValue;
-        sNameTeacher:=Element.Attributes.GetNamedItem('Teacher_Name').NodeValue;
-        sAgeTeacher:=Element.Attributes.GetNamedItem('Teacher_Age').NodeValue;
-        sSerialPassTeacher:=Element.Attributes.GetNamedItem('Teacher_SerialPassport').NodeValue;
-        sNumberPassTeacher:=Element.Attributes.GetNamedItem('Teacher_NumberPassport').NodeValue;
-        sEmailTeacher:=Element.Attributes.GetNamedItem('Teacher_Email').NodeValue;
-        sTelephoneTeacher:=Element.Attributes.GetNamedItem('Teacher_TelephoneNumber').NodeValue;
-        sDanceDirectionTeacher:=Element.Attributes.GetNamedItem('Style').NodeValue;
-       // if(sDanceDirectionTeacher =
-        i:=i+1;
-        Element:=Element.NextSibling;
-
-        Item := TeacherListView.Items.Add;
-        Item.Caption :=sIdTeacher;
-        Item.SubItems.Add(sNameTeacher);
-        Item.SubItems.Add(sAgeTeacher);
-        Item.SubItems.Add(sSerialPassTeacher);
-        Item.SubItems.Add(sNumberPassTeacher);
-        Item.SubItems.Add(sEmailTeacher);
-        Item.SubItems.Add(sTelephoneTeacher);
-          case TeacherArray[i].DanceDirection of
-            HipHop: Item.SubItems.Add('Хип-Хоп');
-            Krump: Item.SubItems.Add('Крамп');
-            JFunk: Item.SubItems.Add('Джазз-Фанк');
-            Break: Item.SubItems.Add('Брейкданс');
-            Improvis: Item.SubItems.Add('Импровизация');
-            LadyHop: Item.SubItems.Add('Лэдис Хип-Хоп');
-            Plastic: Item.SubItems.Add('Стрип-Пластика');
-            Contemp: Item.SubItems.Add('Контемпорари');
-            BalDance: Item.SubItems.Add('Бальные танцы');
-            VostokDance: Item.SubItems.Add('Восточные танцы');
-            SportAcro: Item.SubItems.Add('Спортивная акроботика');
-          end;
-      TeacherArray[i].idTeacher:=StrToInt(sIdTeacher);
-      TeacherArray[i].TeacherName:=sNameTeacher;
-      TeacherArray[i].TeacherAge:=StrToInt(sAgeTeacher);
-      TeacherArray[i].SerialPassport:=sSerialPassTeacher;
-      TeacherArray[i].NumberPassport:=StrToInt(sNumberPassTeacher);
-      TeacherArray[i].TeacherEmail:=sEmailTeacher;
-      TeacherArray[i].TelephoneNumber:=sTelephoneTeacher;
-      countTeachers:=countTeachers+1;
-      until Element = NIL;
-    except
-      ShowMessage('Ошибка чтения XML - файла!');
-    end;
-    finally
-    Document.Free;
-  end;
-end;
 
 procedure TTableTeachersForm.SaveNewInfoTeacherBtnClick(Sender: TObject);
 begin
@@ -317,16 +184,51 @@ end;
 
 
 procedure TTableTeachersForm.saveToXmlFileClick(Sender: TObject);
-begin
-  copyTeacherArray := TeacherArray;
-  MyThread := TMyThread.Create(TeacherArray);
-  MyThread.Execute;
+var RootNode, ElementNode, ItemNode, TextNode, PassNode : TDOMNode;
+    Document : TXMLDocument;
+    i : integer;
+  begin
+    if countTeachers <> 0 then
+  begin
+    Document:=TXMLDocument.Create;
+    with Document do
+    begin
+      ElementNode:=Document.CreateElement('Element');
+      for i:= 1 to countTeachers do
+        begin
+          ItemNode:=Document.CreateElement('Teacher_Information');
+          TDOMElement(ItemNode).SetAttribute('Teacher_ID', IntToStr(TeacherArray[i].idTeacher));
+          TDOMElement(ItemNode).SetAttribute('Teacher_Name', TeacherArray[i].TeacherName);
+          TDOMElement(ItemNode).SetAttribute('Teacher_Age', IntToStr(TeacherArray[i].TeacherAge));
+          TDOMElement(ItemNode).SetAttribute('Teacher_SerialPassport', TeacherArray[i].SerialPassport);
+          TDOMElement(ItemNode).SetAttribute('Teacher_NumberPassport', IntToStr(TeacherArray[i].NumberPassport));
+          TDOMElement(ItemNode).SetAttribute('Teacher_Email', TeacherArray[i].TeacherEmail);
+          TDOMElement(ItemNode).SetAttribute('Teacher_TelephoneNumber', TeacherArray[i].TelephoneNumber);
+          case TeacherArray[i].DanceDirection of
+               HipHop: TDOMElement(ItemNode).SetAttribute('Style','HipHop');
+               Krump: TDOMElement(ItemNode).SetAttribute('Style','Krump');
+               JFunk: TDOMElement(ItemNode).SetAttribute('Style','JazzFunk');
+               Break: TDOMElement(ItemNode).SetAttribute('Style','Breakdance');
+               Improvis: TDOMElement(ItemNode).SetAttribute('Style','Improvisation');
+               LadyHop: TDOMElement(ItemNode).SetAttribute('Style','LadyHop');
+               Plastic: TDOMElement(ItemNode).SetAttribute('Style','PlasticDance');
+               Contemp: TDOMElement(ItemNode).SetAttribute('Style','Contemporary');
+               BalDance: TDOMElement(ItemNode).SetAttribute('Style','BalDance');
+               VostokDance: TDOMElement(ItemNode).SetAttribute('Style','VostokDance');
+               SportAcro: TDOMElement(ItemNode).SetAttribute('Style','SportAcrobatics');
+          end;
+          ElementNode.AppendChild(ItemNode);
+        end;
+    end;
+    Document.AppendChild(ElementNode);
+    writeXMLFile(Document, 'danceStudio.xml');
+    ShowMessage('Успешно!');
+  end else ShowMessage('Не успешно!');
 end;
 
 procedure TTableTeachersForm.TeacherListViewDblClick(Sender: TObject);
 var i : integer;
 begin
-
    if(countTeachers = 0) then
     begin
       ShowMessage('Изменение невозможно: таблица пуста.');
@@ -417,7 +319,6 @@ begin
     end;
 end;
 
-
 procedure TTableTeachersForm.ReadFromXMLClick(Sender: TObject);
 var
   i: integer;
@@ -429,7 +330,7 @@ var
 begin
   TeacherListView.Clear;
   countTeachers:=0;
-  readXMLFile(Document,'dance_studio.xml');
+  readXMLFile(Document,'danceStudio.xml');
   Element:=Document.FirstChild.FirstChild;
   i := 0;
   try
@@ -493,18 +394,92 @@ begin
   TableTeachersForm.Width:=1015;
 end;
 
+procedure TTableTeachersForm.FormClose(Sender: TObject;
+  var CloseAction: TCloseAction);
+var RootNode, ElementNode, ItemNode, TextNode, PassNode : TDOMNode;
+    Document : TXMLDocument;
+    i : integer;
+  begin
+    if countTeachers <> 0 then
+  begin
+    Document:=TXMLDocument.Create;
+    with Document do
+    begin
+      ElementNode:=Document.CreateElement('Element');
+      for i:= 1 to countTeachers do
+        begin
+          ItemNode:=Document.CreateElement('Teacher_Information');
+          TDOMElement(ItemNode).SetAttribute('Teacher_ID', IntToStr(TeacherArray[i].idTeacher));
+          TDOMElement(ItemNode).SetAttribute('Teacher_Name', TeacherArray[i].TeacherName);
+          TDOMElement(ItemNode).SetAttribute('Teacher_Age', IntToStr(TeacherArray[i].TeacherAge));
+          TDOMElement(ItemNode).SetAttribute('Teacher_SerialPassport', TeacherArray[i].SerialPassport);
+          TDOMElement(ItemNode).SetAttribute('Teacher_NumberPassport', IntToStr(TeacherArray[i].NumberPassport));
+          TDOMElement(ItemNode).SetAttribute('Teacher_Email', TeacherArray[i].TeacherEmail);
+          TDOMElement(ItemNode).SetAttribute('Teacher_TelephoneNumber', TeacherArray[i].TelephoneNumber);
+          case TeacherArray[i].DanceDirection of
+               HipHop: TDOMElement(ItemNode).SetAttribute('Style','HipHop');
+               Krump: TDOMElement(ItemNode).SetAttribute('Style','Krump');
+               JFunk: TDOMElement(ItemNode).SetAttribute('Style','JazzFunk');
+               Break: TDOMElement(ItemNode).SetAttribute('Style','Breakdance');
+               Improvis: TDOMElement(ItemNode).SetAttribute('Style','Improvisation');
+               LadyHop: TDOMElement(ItemNode).SetAttribute('Style','LadyHop');
+               Plastic: TDOMElement(ItemNode).SetAttribute('Style','PlasticDance');
+               Contemp: TDOMElement(ItemNode).SetAttribute('Style','Contemporary');
+               BalDance: TDOMElement(ItemNode).SetAttribute('Style','BalDance');
+               VostokDance: TDOMElement(ItemNode).SetAttribute('Style','VostokDance');
+               SportAcro: TDOMElement(ItemNode).SetAttribute('Style','SportAcrobatics');
+          end;
+          ElementNode.AppendChild(ItemNode);
+        end;
+    end;
+    Document.AppendChild(ElementNode);
+    writeXMLFile(Document, 'danceStudio.xml');
+    ShowMessage('Данные автоматически сохранены!');
+  end else ShowMessage('Не удалось сохранить данные!');
+  end;
+
+procedure TTableTeachersForm.FormShow(Sender: TObject);
+var
+  i: integer;
+  PassNode : TDOMNode;
+  Document : TXMLDocument;
+  sIdTeacher,sNameTeacher,sAgeTeacher, sSerialPassTeacher, sNumberPassTeacher, sEmailTeacher, sTelephoneTeacher, sDanceDirectionTeacher : string;
+  Element : TDOMNode;
+  s: string;
+begin
+  TeacherListView.Clear;
+  for i:=1 to countTeachers do
+    begin
+      Item := TeacherListView.Items.Add;
+        Item.Caption :=IntToStr(TeacherArray[i].idTeacher);
+        Item.SubItems.Add(TeacherArray[i].TeacherName);
+        Item.SubItems.Add(IntToStr(TeacherArray[i].TeacherAge));
+        Item.SubItems.Add(TeacherArray[i].SerialPassport);
+        Item.SubItems.Add(IntToStr(TeacherArray[i].NumberPassport));
+        Item.SubItems.Add(TeacherArray[i].TeacherEmail);
+        Item.SubItems.Add(TeacherArray[i].TelephoneNumber);
+          case TeacherArray[i].DanceDirection of
+            HipHop: Item.SubItems.Add('Хип-Хоп');
+            Krump: Item.SubItems.Add('Крамп');
+            JFunk: Item.SubItems.Add('Джазз-Фанк');
+            Break: Item.SubItems.Add('Брейкданс');
+            Improvis: Item.SubItems.Add('Импровизация');
+            LadyHop: Item.SubItems.Add('Лэдис Хип-Хоп');
+            Plastic: Item.SubItems.Add('Стрип-Пластика');
+            Contemp: Item.SubItems.Add('Контемпорари');
+            BalDance: Item.SubItems.Add('Бальные танцы');
+            VostokDance: Item.SubItems.Add('Восточные танцы');
+            SportAcro: Item.SubItems.Add('Спортивная акроботика');
+          end;
+    end;
+    MainForm.restartStatClick;
+end;
+
+
 procedure TTableTeachersForm.grpboxTeacherListViewClick(Sender: TObject);
 begin
 
 end;
-
-//procedure TTableTeachersForm.FormClose(Sender: TObject;
-//  var CloseAction: TCloseAction);
-//begin
-//  copyTeacherArray := TeacherArray;
-//  MyThread := TMyThread.Create(TeacherArray);
-//  MyThread.Execute;
-//end;
 
 function Scale(Value: longint; Pct: integer): longint;
 begin

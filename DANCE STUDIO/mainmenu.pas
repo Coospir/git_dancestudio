@@ -7,8 +7,8 @@ interface
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics,
   Dialogs, Menus, StdCtrls, ExtCtrls, ComCtrls, IniFiles,
-  addNewChildGrpUnit, addNewTeacherUnit, settingsUnit,
-  tableTeacherUnit, addNewChildAbnUnit, tableChildGrpUnit, tableClientUnit;
+  addNewChildGrpUnit, addNewTeacherUnit, settingsUnit, XMLRead, XMLWrite,
+  DOM, tableTeacherUnit, addNewChildAbnUnit, tableChildGrpUnit, tableClientUnit;
 
 type
 
@@ -79,6 +79,12 @@ implementation
 { TMainForm }
 
 procedure TMainForm.FormCreate(Sender: TObject);
+var i: integer;
+    PassNode : TDOMNode;
+    Document : TXMLDocument;
+    sIdTeacher,sNameTeacher,sAgeTeacher, sSerialPassTeacher, sNumberPassTeacher, sEmailTeacher, sTelephoneTeacher, sDanceDirectionTeacher : string;
+    Element : TDOMNode;
+    s: string;
 begin
   MainForm.restartStatClick;
   try
@@ -90,8 +96,52 @@ begin
   except
     ShowMessage('Невозможно работать с файлом.');
   end;
-end;
+  countTeachers:=0;
+  readXMLFile(Document,'danceStudio.xml');
+  Element:=Document.FirstChild.FirstChild;
+  i := 0;
+  try
+    try
+      repeat
+        s:=Element.NodeName;
+        sIdTeacher:=Element.Attributes.GetNamedItem('Teacher_ID').NodeValue;
+        sNameTeacher:=Element.Attributes.GetNamedItem('Teacher_Name').NodeValue;
+        sAgeTeacher:=Element.Attributes.GetNamedItem('Teacher_Age').NodeValue;
+        sSerialPassTeacher:=Element.Attributes.GetNamedItem('Teacher_SerialPassport').NodeValue;
+        sNumberPassTeacher:=Element.Attributes.GetNamedItem('Teacher_NumberPassport').NodeValue;
+        sEmailTeacher:=Element.Attributes.GetNamedItem('Teacher_Email').NodeValue;
+        sTelephoneTeacher:=Element.Attributes.GetNamedItem('Teacher_TelephoneNumber').NodeValue;
+        sDanceDirectionTeacher:=Element.Attributes.GetNamedItem('Style').NodeValue;
+           i:=i+1;
+        if(sDanceDirectionTeacher = 'Хип-Хоп') then TeacherArray[i].DanceDirection:=HipHop else
+          if(sDanceDirectionTeacher = 'Крамп') then TeacherArray[i].DanceDirection:=Krump else
+            if(sDanceDirectionTeacher = 'Джазз-Фанк') then TeacherArray[i].DanceDirection:=JFunk else
+              if(sDanceDirectionTeacher = 'Брейкданс') then TeacherArray[i].DanceDirection:=Break else
+                if(sDanceDirectionTeacher = 'Импровизация') then TeacherArray[i].DanceDirection:=Improvis else
+                  if(sDanceDirectionTeacher = 'Лэдис Хип-Хоп') then TeacherArray[i].DanceDirection:=LadyHop else
+                    if(sDanceDirectionTeacher = 'Стрип-Пластика') then TeacherArray[i].DanceDirection:=Plastic else
+                      if(sDanceDirectionTeacher = 'Контемпорари') then TeacherArray[i].DanceDirection:=Contemp else
+                        if(sDanceDirectionTeacher = 'Бальные танцы') then TeacherArray[i].DanceDirection:=BalDance else
+                          if(sDanceDirectionTeacher = 'Восточные танцы') then TeacherArray[i].DanceDirection:=VostokDance;
 
+                          Element:=Element.NextSibling;
+                          TeacherArray[i].idTeacher:=StrToInt(sIdTeacher);
+                          TeacherArray[i].TeacherName:=sNameTeacher;
+                          TeacherArray[i].TeacherAge:=StrToInt(sAgeTeacher);
+                          TeacherArray[i].SerialPassport:=sSerialPassTeacher;
+                          TeacherArray[i].NumberPassport:=StrToInt(sNumberPassTeacher);
+                          TeacherArray[i].TeacherEmail:=sEmailTeacher;
+                          TeacherArray[i].TelephoneNumber:=sTelephoneTeacher;
+                          countTeachers:=countTeachers+1;
+                        until Element = NIL;
+                      except
+                        ShowMessage('Ошибка чтения XML - файла!');
+                      end;
+                      finally
+                      Document.Free;
+                    end;
+                      MainForm.restartStatClick;
+end;
 
 procedure TMainForm.restartStatClick;
 begin
@@ -283,7 +333,46 @@ begin
 end;
 
 procedure TMainForm.FormClose(Sender: TObject);
-begin
+var RootNode, ElementNode, ItemNode, TextNode, PassNode : TDOMNode;
+    Document : TXMLDocument;
+    i : integer;
+  begin
+    if countTeachers <> 0 then
+  begin
+    Document:=TXMLDocument.Create;
+    with Document do
+    begin
+      ElementNode:=Document.CreateElement('Element');
+      for i:= 1 to countTeachers do
+        begin
+          ItemNode:=Document.CreateElement('Teacher_Information');
+          TDOMElement(ItemNode).SetAttribute('Teacher_ID', IntToStr(TeacherArray[i].idTeacher));
+          TDOMElement(ItemNode).SetAttribute('Teacher_Name', TeacherArray[i].TeacherName);
+          TDOMElement(ItemNode).SetAttribute('Teacher_Age', IntToStr(TeacherArray[i].TeacherAge));
+          TDOMElement(ItemNode).SetAttribute('Teacher_SerialPassport', TeacherArray[i].SerialPassport);
+          TDOMElement(ItemNode).SetAttribute('Teacher_NumberPassport', IntToStr(TeacherArray[i].NumberPassport));
+          TDOMElement(ItemNode).SetAttribute('Teacher_Email', TeacherArray[i].TeacherEmail);
+          TDOMElement(ItemNode).SetAttribute('Teacher_TelephoneNumber', TeacherArray[i].TelephoneNumber);
+          case TeacherArray[i].DanceDirection of
+               HipHop: TDOMElement(ItemNode).SetAttribute('Style','HipHop');
+               Krump: TDOMElement(ItemNode).SetAttribute('Style','Krump');
+               JFunk: TDOMElement(ItemNode).SetAttribute('Style','JazzFunk');
+               Break: TDOMElement(ItemNode).SetAttribute('Style','Breakdance');
+               Improvis: TDOMElement(ItemNode).SetAttribute('Style','Improvisation');
+               LadyHop: TDOMElement(ItemNode).SetAttribute('Style','LadyHop');
+               Plastic: TDOMElement(ItemNode).SetAttribute('Style','PlasticDance');
+               Contemp: TDOMElement(ItemNode).SetAttribute('Style','Contemporary');
+               BalDance: TDOMElement(ItemNode).SetAttribute('Style','BalDance');
+               VostokDance: TDOMElement(ItemNode).SetAttribute('Style','VostokDance');
+               SportAcro: TDOMElement(ItemNode).SetAttribute('Style','SportAcrobatics');
+          end;
+          ElementNode.AppendChild(ItemNode);
+        end;
+    end;
+    Document.AppendChild(ElementNode);
+    writeXMLFile(Document, 'danceStudio.xml');
+    ShowMessage('Данные автоматически сохранены!');
+  end else ShowMessage('Не удалось сохранить данные!');
   try
     IniFile:= TIniFile.Create('settings.ini');
     IniFile.WriteInteger('MAINFORM','MAINFORMWIDTH',MAINFORM.Width);
@@ -293,4 +382,5 @@ begin
     ShowMessage('Невозможно работать с файлом.');
   end;
 end;
+
 end.

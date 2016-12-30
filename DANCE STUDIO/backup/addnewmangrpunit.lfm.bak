@@ -1,0 +1,39 @@
+object addNewManGrpForm: TaddNewManGrpForm
+  Left = 742
+  Height = 163
+  Top = 614
+  Width = 355
+  BorderStyle = bsDialog
+  Caption = 'Добавление взрослой группы'
+  ClientHeight = 163
+  ClientWidth = 355
+  OnCreate = FormCreate
+  LCLVersion = '1.6.0.4'
+  object btnSaveManGrp: TButton
+    Left = 0
+    Height = 41
+    Top = 122
+    Width = 355
+    Align = alBottom
+    Caption = 'Сохранить'
+    OnClick = btnSaveManGrpClick
+    TabOrder = 0
+  end
+  object NameGroupManLabeledEdit: TLabeledEdit
+    Left = 16
+    Height = 23
+    Top = 32
+    Width = 216
+    EditLabel.AnchorSideLeft.Control = NameGroupManLabeledEdit
+    EditLabel.AnchorSideRight.Control = NameGroupManLabeledEdit
+    EditLabel.AnchorSideRight.Side = asrBottom
+    EditLabel.AnchorSideBottom.Control = NameGroupManLabeledEdit
+    EditLabel.Left = 16
+    EditLabel.Height = 15
+    EditLabel.Top = 14
+    EditLabel.Width = 216
+    EditLabel.Caption = 'Введите название взрослой группы'
+    EditLabel.ParentColor = False
+    TabOrder = 1
+  end
+end

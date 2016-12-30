@@ -1,0 +1,83 @@
+object TableAbnForm: TTableAbnForm
+  Left = 608
+  Height = 226
+  Top = 353
+  Width = 1014
+  Caption = 'Список клиентов'
+  ClientHeight = 226
+  ClientWidth = 1014
+  OnCreate = FormCreate
+  LCLVersion = '1.6.2.0'
+  object grpboxAbnListView: TGroupBox
+    Left = 8
+    Height = 209
+    Top = 8
+    Width = 825
+    Caption = 'Список абонементов'
+    ClientHeight = 187
+    ClientWidth = 821
+    Font.CharSet = RUSSIAN_CHARSET
+    Font.Height = -12
+    Font.Name = 'Century Gothic'
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    ParentFont = False
+    TabOrder = 0
+    object ClientsListView: TListView
+      Left = 8
+      Height = 184
+      Top = 0
+      Width = 800
+      Columns = <      
+        item
+          AutoSize = True
+          Caption = 'ID'
+          Width = 796
+        end      
+        item
+          AutoSize = True
+          Caption = 'Фамилия Имя Отчество'
+          Width = 155
+        end      
+        item
+          AutoSize = True
+          Caption = 'Возраст '
+          Width = 64
+        end      
+        item
+          AutoSize = True
+          Caption = 'Электронная почта'
+          Width = 128
+        end      
+        item
+          AutoSize = True
+          Caption = 'Контактный телефон'
+          Width = 138
+        end      
+        item
+          AutoSize = True
+          Caption = 'Группа'
+          Width = 54
+        end>
+      GridLines = True
+      RowSelect = True
+      TabOrder = 0
+      ViewStyle = vsReport
+    end
+  end
+  object DelClientBtn: TButton
+    Left = 848
+    Height = 25
+    Top = 16
+    Width = 112
+    Caption = 'Удалить запись'
+    Font.CharSet = RUSSIAN_CHARSET
+    Font.Height = -12
+    Font.Name = 'Century Gothic'
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    OnClick = DelClientBtnClick
+    ParentFont = False
+    TabOrder = 1
+  end
+end

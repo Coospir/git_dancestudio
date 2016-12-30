@@ -1,0 +1,29 @@
+object settingsForm: TsettingsForm
+  Left = 405
+  Height = 73
+  Top = 275
+  Width = 219
+  Caption = 'Настройки'
+  ClientHeight = 73
+  ClientWidth = 219
+  OnCreate = FormCreate
+  LCLVersion = '1.6.0.4'
+  object newColorFormSettings: TLabel
+    Left = 10
+    Height = 15
+    Top = 10
+    Width = 128
+    Caption = 'Выберите цвет формы:'
+    ParentColor = False
+  end
+  object ColorButton1: TColorButton
+    Left = 10
+    Height = 25
+    Top = 32
+    Width = 75
+    BorderWidth = 2
+    ButtonColorSize = 16
+    ButtonColor = clBlack
+    OnColorChanged = ColorButton1ColorChanged
+  end
+end

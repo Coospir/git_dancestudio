@@ -1,0 +1,29 @@
+object addNewManGrpForm: TaddNewManGrpForm
+  Left = 511
+  Height = 240
+  Top = 138
+  Width = 320
+  BorderStyle = bsDialog
+  Caption = 'Добавление группы'
+  ClientHeight = 240
+  ClientWidth = 320
+  OnCreate = FormCreate
+  LCLVersion = '1.6.0.4'
+  object btnSaveManGrp: TButton
+    Left = 0
+    Height = 41
+    Top = 0
+    Width = 320
+    Align = alTop
+    Caption = 'Сохранить'
+    OnClick = btnSaveManGrpClick
+    TabOrder = 0
+  end
+  object nameManGrpEdit: TEdit
+    Left = 8
+    Height = 23
+    Top = 64
+    Width = 80
+    TabOrder = 1
+  end
+end

@@ -1,0 +1,98 @@
+unit addNewAbnUnit;
+
+{$mode objfpc}{$H+}
+
+interface
+
+uses
+  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
+  StdCtrls, Buttons, MaskEdit;
+
+type
+
+  { TaddNewChildAbnForm }
+
+  TaddNewChildAbnForm = class(TForm)
+    ageNewClient: TEdit;
+    ageNewClientLabel: TLabel;
+    saveInfoNewClientBtn: TButton;
+    teachersNewClientLabel: TLabel;
+    teachersNewClient: TComboBox;
+    emailNewClient: TLabeledEdit;
+    emailNewClientLabel: TBoundLabel;
+    telNumberNewClientLabel: TLabel;
+    telNumberNewClient: TMaskEdit;
+    nameNewClient: TLabeledEdit;
+    nameNewClientLabel: TBoundLabel;
+    procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure saveInfoNewClientBtnClick(Sender: TObject);
+    procedure teachersNewClientChange(Sender: TObject);
+  private
+    { private declarations }
+  public
+    { public declarations }
+  end;
+const maxCountClients = 5;
+type
+  TNewClient = record
+      ClientName : string[100];
+      ClientAge : integer;
+      ClientEmail : string[100];
+      ClientTelephoneNumber : string[20];
+  end;
+var
+  addNewChildAbnForm: TaddNewChildAbnForm;
+  countClients : integer;
+  ClientArray : array[1..maxCountClients] of TNewClient;
+
+implementation
+uses MainMenu, addNewTeacherUnit;
+
+{$R *.lfm}
+
+{ TaddNewChildAbnForm }
+
+procedure TaddNewChildAbnForm.FormCreate(Sender: TObject);
+begin
+  Left:=0;
+  Top:=0;
+end;
+
+procedure TaddNewChildAbnForm.FormShow(Sender: TObject);
+var i : integer;
+  begin
+  for i := 1 to countTeachers do
+    begin
+      teachersNewClient.AddItem(TeacherArray[i].TeacherName, NIL);
+    end;
+end;
+
+procedure TaddNewChildAbnForm.saveInfoNewClientBtnClick(Sender: TObject);
+begin
+  try
+    if (nameNewClient.Text = '') or (ageNewClient.Text = '')  or (emailNewClient.Text = '') or (telNumberNewClient.Text = '') then
+    begin
+      ShowMessage('Оставлено пустое поле!');
+    end else if(countClients >= maxCountClients) then ShowMessage('Достигнуто максимальное количество записей "Абонементы"!') else
+    begin
+    ClientArray[countClients+1].ClientName:=nameNewClient.Text;
+    ClientArray[countClients+1].ClientAge:=StrToInt(ageNewClient.Text);
+    ClientArray[countClients+1].ClientEmail:=emailNewClient.Text;
+    ClientArray[countClients+1].ClientTelephoneNumber:=telNumberNewClient.Text;
+    ShowMessage('Данные успешно сохранены!');
+    countClients:=countClients+1;
+    MainForm.restartStatClick;
+    end;
+  except
+    on EConvertError do ShowMessage('Заполнены не все поля!');
+  end;
+end;
+
+procedure TaddNewChildAbnForm.teachersNewClientChange(Sender: TObject);
+begin
+
+end;
+
+end.
+

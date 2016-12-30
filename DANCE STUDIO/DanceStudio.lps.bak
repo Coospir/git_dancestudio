@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="9"/>
+    <BuildModes Active="Default"/>
+    <Units Count="28">
+      <Unit0>
+        <Filename Value="DanceStudio.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="48" Y="19"/>
+        <UsageCount Value="193"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="mainmenu.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="MainForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="MainMenu"/>
+        <TopLine Value="112"/>
+        <CursorPos X="23" Y="131"/>
+        <UsageCount Value="193"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="addnewchildgrpunit.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="addNewGrpForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="addNewChildGrpUnit"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="63"/>
+        <CursorPos X="81" Y="88"/>
+        <UsageCount Value="193"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="settingsunit.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="settingsForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="settingsUnit"/>
+        <EditorIndex Value="7"/>
+        <CursorPos X="40" Y="81"/>
+        <UsageCount Value="190"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="addnewteacherunit.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="addNewTeacherForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="addNewTeacherUnit"/>
+        <EditorIndex Value="5"/>
+        <TopLine Value="32"/>
+        <CursorPos Y="149"/>
+        <UsageCount Value="183"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="childlistgrp.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="childListGrp"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="18"/>
+        <UsageCount Value="178"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="childlistgrpunit.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="22"/>
+        <UsageCount Value="178"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="tableteacherunit.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="TableTeachersForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="tableTeacherUnit"/>
+        <EditorIndex Value="6"/>
+        <TopLine Value="608"/>
+        <CursorPos X="41" Y="630"/>
+        <UsageCount Value="170"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="addnewchildabnunit.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="addNewAbnForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="addNewChildAbnUnit"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="80"/>
+        <CursorPos X="28" Y="86"/>
+        <UsageCount Value="153"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="tablechildgrpunit.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="ListAllGrpForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="tableChildGrpUnit"/>
+        <EditorIndex Value="4"/>
+        <TopLine Value="42"/>
+        <CursorPos X="60" Y="59"/>
+        <UsageCount Value="135"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="tableclientunit.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="TableAbnForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="tableClientUnit"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="27"/>
+        <CursorPos X="53" Y="47"/>
+        <UsageCount Value="92"/>
+        <Loaded Value="True"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="addnewmangrpunit.pas"/>
+        <ComponentName Value="addNewManGrpForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="addNewManGrpUnit"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="22" Y="41"/>
+        <UsageCount Value="100"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="D:\lazarus\lcl\include\wincontrol.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="5373"/>
+        <CursorPos Y="5384"/>
+        <UsageCount Value="7"/>
+      </Unit12>
+      <Unit13>
+        <Filename Value="D:\Lazarus\lcl\include\control.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="2727"/>
+        <CursorPos Y="2736"/>
+        <UsageCount Value="10"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="addnewchildabonunit.pas"/>
+        <UnitName Value="addNewChildAbnUnit"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="6"/>
+        <UsageCount Value="15"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="D:\lazarus\lcl\include\listitem.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="348"/>
+        <CursorPos Y="327"/>
+        <UsageCount Value="8"/>
+      </Unit15>
+      <Unit16>
+        <Filename Value="D:\lazarus\lcl\include\buttoncontrol.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="9"/>
+        <CursorPos Y="21"/>
+        <UsageCount Value="7"/>
+      </Unit16>
+      <Unit17>
+        <Filename Value="D:\lazarus\lcl\include\buttons.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="158"/>
+        <CursorPos Y="170"/>
+        <UsageCount Value="7"/>
+      </Unit17>
+      <Unit18>
+        <Filename Value="D:\lazarus\lcl\lclmessageglue.pas"/>
+        <UnitName Value="LCLMessageGlue"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="111"/>
+        <CursorPos Y="123"/>
+        <UsageCount Value="7"/>
+      </Unit18>
+      <Unit19>
+        <Filename Value="DanceStudio.lpi"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="XML"/>
+      </Unit19>
+      <Unit20>
+        <Filename Value="D:\Lazarus\fpc\3.0.0\source\rtl\objpas\classes\classesh.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="681"/>
+        <CursorPos X="14" Y="697"/>
+        <UsageCount Value="10"/>
+      </Unit20>
+      <Unit21>
+        <Filename Value="D:\lazarus\lcl\stdctrls.pp"/>
+        <UnitName Value="StdCtrls"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1460"/>
+        <CursorPos X="42" Y="1480"/>
+        <UsageCount Value="9"/>
+      </Unit21>
+      <Unit22>
+        <Filename Value="C:\Windows\Temp\Rar$DIa0.017\project1.lpr"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="9"/>
+      </Unit22>
+      <Unit23>
+        <Filename Value="D:\LazarusPascal\lcl\lresources.pp"/>
+        <UnitName Value="LResources"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="3965"/>
+        <CursorPos Y="3981"/>
+        <UsageCount Value="9"/>
+      </Unit23>
+      <Unit24>
+        <Filename Value="D:\LazarusPascal\lcl\include\customform.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="2699"/>
+        <CursorPos Y="2718"/>
+        <UsageCount Value="9"/>
+      </Unit24>
+      <Unit25>
+        <Filename Value="D:\LazarusPascal\lcl\include\wincontrol.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="4374"/>
+        <CursorPos Y="4390"/>
+        <UsageCount Value="9"/>
+      </Unit25>
+      <Unit26>
+        <Filename Value="D:\LazarusPascal\lcl\include\control.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="2722"/>
+        <CursorPos X="18" Y="2730"/>
+        <UsageCount Value="9"/>
+      </Unit26>
+      <Unit27>
+        <Filename Value="D:\LazarusPascal\fpc\3.0.0\source\packages\fcl-xml\src\xmlread.pp"/>
+        <UnitName Value="XMLRead"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="21"/>
+        <CursorPos X="11" Y="38"/>
+        <UsageCount Value="9"/>
+      </Unit27>
+    </Units>
+    <JumpHistory Count="30" HistoryIndex="29">
+      <Position1>
+        <Filename Value="mainmenu.pas"/>
+        <Caret Line="163" TopLine="135"/>
+      </Position1>
+      <Position2>
+        <Filename Value="mainmenu.pas"/>
+        <Caret Line="90" TopLine="73"/>
+      </Position2>
+      <Position3>
+        <Filename Value="mainmenu.pas"/>
+        <Caret Line="91" TopLine="73"/>
+      </Position3>
+      <Position4>
+        <Filename Value="mainmenu.pas"/>
+        <Caret Line="92" TopLine="73"/>
+      </Position4>
+      <Position5>
+        <Filename Value="mainmenu.pas"/>
+        <Caret Line="93" TopLine="73"/>
+      </Position5>
+      <Position6>
+        <Filename Value="mainmenu.pas"/>
+        <Caret Line="94" TopLine="73"/>
+      </Position6>
+      <Position7>
+        <Filename Value="mainmenu.pas"/>
+        <Caret Line="95" TopLine="73"/>
+      </Position7>
+      <Position8>
+        <Filename Value="mainmenu.pas"/>
+        <Caret Line="90" TopLine="73"/>
+      </Position8>
+      <Position9>
+        <Filename Value="mainmenu.pas"/>
+        <Caret Line="99" TopLine="73"/>
+      </Position9>
+      <Position10>
+        <Filename Value="mainmenu.pas"/>
+        <Caret Line="100" TopLine="73"/>
+      </Position10>
+      <Position11>
+        <Filename Value="mainmenu.pas"/>
+        <Caret Line="101" TopLine="73"/>
+      </Position11>
+      <Position12>
+        <Filename Value="mainmenu.pas"/>
+        <Caret Line="102" TopLine="74"/>
+      </Position12>
+      <Position13>
+        <Filename Value="mainmenu.pas"/>
+        <Caret Line="103" TopLine="75"/>
+      </Position13>
+      <Position14>
+        <Filename Value="mainmenu.pas"/>
+        <Caret Line="104" TopLine="76"/>
+      </Position14>
+      <Position15>
+        <Filename Value="mainmenu.pas"/>
+        <Caret Line="106" TopLine="78"/>
+      </Position15>
+      <Position16>
+        <Filename Value="mainmenu.pas"/>
+        <Caret Line="107" TopLine="79"/>
+      </Position16>
+      <Position17>
+        <Filename Value="mainmenu.pas"/>
+        <Caret Line="108" Column="25" TopLine="80"/>
+      </Position17>
+      <Position18>
+        <Filename Value="mainmenu.pas"/>
+        <Caret Line="109" TopLine="81"/>
+      </Position18>
+      <Position19>
+        <Filename Value="mainmenu.pas"/>
+        <Caret Line="110" TopLine="83"/>
+      </Position19>
+      <Position20>
+        <Filename Value="mainmenu.pas"/>
+        <Caret Line="111" TopLine="83"/>
+      </Position20>
+      <Position21>
+        <Filename Value="mainmenu.pas"/>
+        <Caret Line="112" TopLine="84"/>
+      </Position21>
+      <Position22>
+        <Filename Value="mainmenu.pas"/>
+        <Caret Line="113" TopLine="85"/>
+      </Position22>
+      <Position23>
+        <Filename Value="mainmenu.pas"/>
+        <Caret Line="114" TopLine="86"/>
+      </Position23>
+      <Position24>
+        <Filename Value="mainmenu.pas"/>
+        <Caret Line="115" TopLine="87"/>
+      </Position24>
+      <Position25>
+        <Filename Value="mainmenu.pas"/>
+        <Caret Line="145" TopLine="4"/>
+      </Position25>
+      <Position26>
+        <Filename Value="mainmenu.pas"/>
+        <Caret Line="131" Column="23" TopLine="112"/>
+      </Position26>
+      <Position27>
+        <Filename Value="tableteacherunit.pas"/>
+        <Caret Line="634" Column="5" TopLine="609"/>
+      </Position27>
+      <Position28>
+        <Filename Value="tableteacherunit.pas"/>
+        <Caret Line="239" TopLine="221"/>
+      </Position28>
+      <Position29>
+        <Filename Value="tableteacherunit.pas"/>
+        <Caret Line="630" Column="41" TopLine="608"/>
+      </Position29>
+      <Position30>
+        <Filename Value="addnewchildgrpunit.pas"/>
+        <Caret Line="65" Column="40" TopLine="39"/>
+      </Position30>
+    </JumpHistory>
+  </ProjectSession>
+  <Debugging>
+    <Watches Count="1">
+      <Item1>
+        <Expression Value="Element.FNodeValue"/>
+      </Item1>
+    </Watches>
+  </Debugging>
+</CONFIG>

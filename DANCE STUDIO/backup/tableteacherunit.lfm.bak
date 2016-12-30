@@ -1,0 +1,284 @@
+object TableTeachersForm: TTableTeachersForm
+  Left = 210
+  Height = 294
+  Top = 222
+  Width = 1015
+  BorderStyle = bsDialog
+  Caption = 'Список преподавателей'
+  ClientHeight = 294
+  ClientWidth = 1015
+  Font.CharSet = RUSSIAN_CHARSET
+  Font.Height = -12
+  Font.Name = 'Century Gothic'
+  Font.Pitch = fpVariable
+  Font.Quality = fqDraft
+  OnCreate = FormCreate
+  LCLVersion = '1.6.2.0'
+  object grpboxTeacherListView: TGroupBox
+    Left = 10
+    Height = 174
+    Top = 10
+    Width = 998
+    Caption = 'Таблица преподавателей'
+    ClientHeight = 152
+    ClientWidth = 994
+    TabOrder = 0
+    OnClick = grpboxTeacherListViewClick
+    object TeacherListView: TListView
+      Left = 8
+      Height = 134
+      Top = 0
+      Width = 760
+      Anchors = [akTop, akLeft, akRight, akBottom]
+      Color = clWhite
+      Columns = <      
+        item
+          AutoSize = True
+          Caption = 'ID'
+          Width = 756
+        end      
+        item
+          AutoSize = True
+          Caption = 'Фамилия Имя Отчество'
+          Width = 155
+        end      
+        item
+          AutoSize = True
+          Caption = 'Возраст преподавателя'
+          Width = 156
+        end      
+        item
+          AutoSize = True
+          Caption = 'Серия паспорта'
+          Width = 112
+        end      
+        item
+          AutoSize = True
+          Caption = 'Номер паспорта'
+          Width = 117
+        end      
+        item
+          AutoSize = True
+          Caption = 'E-mail адрес'
+          Width = 89
+        end      
+        item
+          AutoSize = True
+          Caption = 'Контактный телефон'
+          Width = 138
+        end      
+        item
+          AutoSize = True
+          Caption = 'Танцевальное направление преподавателя'
+          Width = 275
+        end>
+      DragMode = dmAutomatic
+      Font.CharSet = RUSSIAN_CHARSET
+      Font.Height = -12
+      Font.Name = 'Century Gothic'
+      Font.Pitch = fpVariable
+      Font.Quality = fqDraft
+      GridLines = True
+      ParentFont = False
+      ReadOnly = True
+      RowSelect = True
+      TabOrder = 0
+      ViewStyle = vsReport
+      OnDragDrop = TeacherListViewDragDrop
+      OnDragOver = TeacherListViewDragOver
+      OnSelectItem = TeacherListViewSelectItem
+    end
+    object pageControlTeacher: TPageControl
+      Left = 776
+      Height = 134
+      Top = 0
+      Width = 200
+      ActivePage = btnForListView
+      TabIndex = 0
+      TabOrder = 1
+      object btnForListView: TTabSheet
+        Caption = 'Работа с таблицей'
+        ClientHeight = 104
+        ClientWidth = 192
+        object delTeacher: TButton
+          Left = 32
+          Height = 24
+          Top = 40
+          Width = 128
+          Caption = 'Удалить запись'
+          Font.CharSet = RUSSIAN_CHARSET
+          Font.Height = -12
+          Font.Name = 'Century Gothic'
+          Font.Pitch = fpVariable
+          Font.Quality = fqDraft
+          OnClick = delTeacherClick
+          ParentFont = False
+          TabOrder = 0
+        end
+        object changeLineBtn: TButton
+          Left = 32
+          Height = 24
+          Top = 8
+          Width = 128
+          Caption = 'Изменить запись'
+          Font.CharSet = RUSSIAN_CHARSET
+          Font.Height = -12
+          Font.Name = 'Century Gothic'
+          Font.Pitch = fpVariable
+          Font.Quality = fqDraft
+          OnClick = changeLineBtnClick
+          ParentFont = False
+          TabOrder = 1
+        end
+      end
+      object btnForFunctions: TTabSheet
+        Caption = 'Функции'
+        ClientHeight = 104
+        ClientWidth = 192
+        object saveToXmlFile: TButton
+          Left = 32
+          Height = 25
+          Top = 8
+          Width = 136
+          Caption = 'Сохранить'
+          Font.CharSet = RUSSIAN_CHARSET
+          Font.Height = -12
+          Font.Name = 'Century Gothic'
+          Font.Pitch = fpVariable
+          Font.Quality = fqDraft
+          OnClick = saveToXmlFileClick
+          ParentFont = False
+          TabOrder = 0
+        end
+        object PrintBtn: TButton
+          Left = 32
+          Height = 25
+          Top = 72
+          Width = 136
+          Caption = 'Печать'
+          OnClick = PrintBtnClick
+          TabOrder = 1
+        end
+        object ReadFromXML: TButton
+          Left = 32
+          Height = 25
+          Top = 40
+          Width = 131
+          Caption = 'Загрузка'
+          OnClick = ReadFromXMLClick
+          TabOrder = 2
+        end
+      end
+    end
+  end
+  object NewEmailTeacher: TEdit
+    Left = 16
+    Height = 25
+    Top = 259
+    Width = 182
+    MaxLength = 50
+    TabOrder = 1
+    TextHint = 'E-mail преподавателя'
+  end
+  object NewAgeTeacher: TEdit
+    Left = 232
+    Height = 25
+    Top = 224
+    Width = 120
+    MaxLength = 2
+    TabOrder = 2
+    TextHint = 'Возраст'
+  end
+  object NewDanceDirectionTeacher: TComboBox
+    Left = 528
+    Height = 25
+    Hint = 'Выберите направление'
+    Top = 224
+    Width = 148
+    ItemHeight = 17
+    Items.Strings = (
+      'Хип-Хоп'
+      'Крамп'
+      'Джазз-Фанк'
+      'Брейкданс'
+      'Импровизация'
+      'Лэдис Хип-Хоп'
+      'Стрип-Пластика'
+      'Контемпорари'
+      'Бальные танцы'
+      'Восточные танцы'
+      'Спортивная Акробатика'
+    )
+    Style = csDropDownList
+    TabOrder = 3
+  end
+  object SaveNewInfoTeacherBtn: TButton
+    Left = 528
+    Height = 28
+    Top = 256
+    Width = 75
+    Caption = 'ОК'
+    OnClick = SaveNewInfoTeacherBtnClick
+    TabOrder = 4
+  end
+  object NewTelephoneNumberTeacher: TMaskEdit
+    Left = 232
+    Height = 25
+    Top = 259
+    Width = 124
+    CharCase = ecNormal
+    MaxLength = 15
+    TabOrder = 5
+    EditMask = '8(###)###-##-##;1;*'
+    Text = '8(   )   -  -  '
+    SpaceChar = '*'
+  end
+  object NewSerialPassTeacher: TEdit
+    Left = 384
+    Height = 25
+    Top = 224
+    Width = 120
+    MaxLength = 4
+    NumbersOnly = True
+    TabOrder = 6
+    TextHint = 'Серия'
+  end
+  object NewNumberPassTeacher: TEdit
+    Left = 384
+    Height = 25
+    Top = 259
+    Width = 120
+    MaxLength = 6
+    NumbersOnly = True
+    TabOrder = 7
+    TextHint = 'Номер'
+  end
+  object NewNameTeacher: TEdit
+    Left = 16
+    Height = 25
+    Top = 224
+    Width = 182
+    MaxLength = 50
+    TabOrder = 8
+    TextHint = 'Ф.И.О преподавателя'
+  end
+  object ChangeSelectedTeacherLabel: TLabel
+    Left = 16
+    Height = 17
+    Top = 192
+    Width = 147
+    Caption = 'Изменение записи с ID: '
+    ParentColor = False
+  end
+  object NumberIdLabel: TLabel
+    Left = 160
+    Height = 1
+    Top = 192
+    Width = 1
+    ParentColor = False
+  end
+  object PrintDialog1: TPrintDialog
+    left = 960
+    top = 96
+  end
+end

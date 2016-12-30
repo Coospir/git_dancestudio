@@ -1,0 +1,45 @@
+object ListAllGrpForm: TListAllGrpForm
+  Left = 247
+  Height = 241
+  Top = 169
+  Width = 480
+  BorderStyle = bsDialog
+  Caption = 'Список танцевальных групп'
+  ClientHeight = 241
+  ClientWidth = 480
+  OnCreate = FormCreate
+  LCLVersion = '1.6.2.0'
+  object AllGrpListView: TListView
+    Left = 8
+    Height = 184
+    Top = 8
+    Width = 464
+    AutoWidthLastColumn = True
+    Columns = <    
+      item
+        AutoSize = True
+        Caption = 'Название группы'
+        Width = 460
+      end    
+      item
+        AutoSize = True
+        Caption = 'Преподаватель группы'
+        Width = 140
+      end>
+    GridLines = True
+    MultiSelect = True
+    ReadOnly = True
+    RowSelect = True
+    TabOrder = 0
+    ViewStyle = vsReport
+  end
+  object DelGrpBtn: TButton
+    Left = 8
+    Height = 25
+    Top = 200
+    Width = 75
+    Caption = 'Удалить '
+    OnClick = DelGrpBtnClick
+    TabOrder = 1
+  end
+end

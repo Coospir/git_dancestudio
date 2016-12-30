@@ -1,0 +1,249 @@
+object addNewTeacherForm: TaddNewTeacherForm
+  Left = 36
+  Height = 202
+  Top = 118
+  Width = 677
+  BorderStyle = bsDialog
+  Caption = 'Новый преподаватель'
+  ClientHeight = 202
+  ClientWidth = 677
+  OnCreate = FormCreate
+  LCLVersion = '1.6.2.0'
+  object grpboxNewTeacher: TGroupBox
+    Left = 0
+    Height = 198
+    Top = 0
+    Width = 672
+    Caption = 'Заполнение данных нового преподавателя'
+    ClientHeight = 176
+    ClientWidth = 668
+    Font.CharSet = RUSSIAN_CHARSET
+    Font.Height = -12
+    Font.Name = 'Century Gothic'
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    ParentFont = False
+    TabOrder = 0
+    OnClick = grpboxNewTeacherClick
+    object emailNewTeacher: TLabeledEdit
+      Left = 256
+      Height = 25
+      Top = 40
+      Width = 214
+      EditLabel.AnchorSideLeft.Control = emailNewTeacher
+      EditLabel.AnchorSideRight.Control = emailNewTeacher
+      EditLabel.AnchorSideRight.Side = asrBottom
+      EditLabel.AnchorSideBottom.Control = emailNewTeacher
+      EditLabel.Left = 256
+      EditLabel.Height = 17
+      EditLabel.Top = 20
+      EditLabel.Width = 214
+      EditLabel.Caption = 'Электронная почта преподавателя'
+      EditLabel.ParentColor = False
+      Font.CharSet = RUSSIAN_CHARSET
+      Font.Height = -12
+      Font.Name = 'Century Gothic'
+      Font.Pitch = fpVariable
+      Font.Quality = fqDraft
+      MaxLength = 40
+      ParentFont = False
+      TabOrder = 1
+    end
+    object telNumberNewTeacher: TMaskEdit
+      Left = 256
+      Height = 25
+      Top = 88
+      Width = 214
+      CharCase = ecNormal
+      Font.CharSet = RUSSIAN_CHARSET
+      Font.Height = -12
+      Font.Name = 'Century Gothic'
+      Font.Pitch = fpVariable
+      Font.Quality = fqDraft
+      MaxLength = 15
+      ParentFont = False
+      TabOrder = 3
+      EditMask = '8(###)###-##-##;1;_'
+      Text = '8(   )   -  -  '
+      TextHint = 'Введите контактный телефон'
+      SpaceChar = '_'
+    end
+    object telNumberNewTeacherLabel: TLabel
+      Left = 256
+      Height = 17
+      Top = 72
+      Width = 126
+      Caption = 'Контактный телефон'
+      Font.CharSet = RUSSIAN_CHARSET
+      Font.Height = -12
+      Font.Name = 'Century Gothic'
+      Font.Pitch = fpVariable
+      Font.Quality = fqDraft
+      ParentColor = False
+      ParentFont = False
+    end
+    object ageNewTeacher: TEdit
+      Left = 16
+      Height = 25
+      Top = 88
+      Width = 94
+      Font.CharSet = RUSSIAN_CHARSET
+      Font.Height = -12
+      Font.Name = 'Century Gothic'
+      Font.Pitch = fpVariable
+      Font.Quality = fqDraft
+      MaxLength = 2
+      NumbersOnly = True
+      ParentFont = False
+      TabOrder = 2
+    end
+    object ageNewTeacherLabel: TLabel
+      Left = 16
+      Height = 17
+      Top = 72
+      Width = 194
+      Caption = 'Введите возраст преподавателя'
+      Font.CharSet = RUSSIAN_CHARSET
+      Font.Height = -12
+      Font.Name = 'Century Gothic'
+      Font.Pitch = fpVariable
+      Font.Quality = fqDraft
+      ParentColor = False
+      ParentFont = False
+    end
+    object passSerialNewTeacher: TEdit
+      Left = 16
+      Height = 25
+      Top = 142
+      Width = 80
+      Font.CharSet = RUSSIAN_CHARSET
+      Font.Height = -12
+      Font.Name = 'Century Gothic'
+      Font.Pitch = fpVariable
+      Font.Quality = fqDraft
+      MaxLength = 4
+      NumbersOnly = True
+      ParentFont = False
+      TabOrder = 4
+    end
+    object passNumberNewTeacher: TEdit
+      Left = 120
+      Height = 25
+      Top = 142
+      Width = 112
+      Font.CharSet = RUSSIAN_CHARSET
+      Font.Height = -12
+      Font.Name = 'Century Gothic'
+      Font.Pitch = fpVariable
+      Font.Quality = fqDraft
+      MaxLength = 6
+      NumbersOnly = True
+      ParentFont = False
+      TabOrder = 5
+    end
+    object SerialNumberPassLabel: TLabel
+      Left = 16
+      Height = 17
+      Top = 120
+      Width = 207
+      Caption = 'Данные: серия и номер паспорта'
+      Font.CharSet = RUSSIAN_CHARSET
+      Font.Height = -12
+      Font.Name = 'Century Gothic'
+      Font.Pitch = fpVariable
+      Font.Quality = fqDraft
+      ParentColor = False
+      ParentFont = False
+    end
+    object danceDirectionNewTeacher: TComboBox
+      Left = 256
+      Height = 25
+      Top = 142
+      Width = 214
+      Font.CharSet = RUSSIAN_CHARSET
+      Font.Height = -12
+      Font.Name = 'Century Gothic'
+      Font.Pitch = fpVariable
+      Font.Quality = fqDraft
+      ItemHeight = 17
+      Items.Strings = (
+        'Хип-Хоп'
+        'Крамп'
+        'Джазз-Фанк'
+        'Брейкданс'
+        'Импровизация'
+        'Лэдис Хип-Хоп'
+        'Стрип-Пластика'
+        'Контемпорари'
+        'Бальные танцы'
+        'Восточные танцы'
+        'Спортивная Акробатика'
+      )
+      ParentFont = False
+      Style = csDropDownList
+      TabOrder = 6
+    end
+    object saveInfoNewTeacherBtn: TButton
+      Left = 496
+      Height = 81
+      Top = 86
+      Width = 144
+      Caption = 'Сохранить данные'
+      Font.CharSet = RUSSIAN_CHARSET
+      Font.Height = -12
+      Font.Name = 'Century Gothic'
+      Font.Pitch = fpVariable
+      Font.Quality = fqDraft
+      OnClick = saveInfoNewTeacherBtnClick
+      ParentFont = False
+      TabOrder = 7
+    end
+    object nameNewTeacher: TLabeledEdit
+      Left = 16
+      Height = 25
+      Top = 40
+      Width = 214
+      EditLabel.AnchorSideLeft.Control = nameNewTeacher
+      EditLabel.AnchorSideRight.Control = nameNewTeacher
+      EditLabel.AnchorSideRight.Side = asrBottom
+      EditLabel.AnchorSideBottom.Control = nameNewTeacher
+      EditLabel.Left = 16
+      EditLabel.Height = 17
+      EditLabel.Top = 20
+      EditLabel.Width = 214
+      EditLabel.Caption = 'Введите Ф.И.О преподавателя'
+      EditLabel.ParentColor = False
+      Font.CharSet = RUSSIAN_CHARSET
+      Font.Height = -12
+      Font.Name = 'Century Gothic'
+      Font.Pitch = fpVariable
+      Font.Quality = fqDraft
+      MaxLength = 30
+      ParentFont = False
+      TabOrder = 0
+      OnKeyPress = nameNewTeacherKeyPress
+    end
+    object danceDirectionNewTeacherLabel: TLabel
+      Left = 256
+      Height = 17
+      Top = 120
+      Width = 189
+      Caption = 'Выберите стиль преподавателя'
+      Font.CharSet = RUSSIAN_CHARSET
+      Font.Height = -12
+      Font.Name = 'Century Gothic'
+      Font.Pitch = fpVariable
+      Font.Quality = fqDraft
+      ParentColor = False
+      ParentFont = False
+    end
+    object Label1: TLabel
+      Left = 496
+      Height = 68
+      Top = 16
+      Width = 116
+      Caption = 'Подсказка: перед '#13#10'сохранением '#13#10'проверяйте '#13#10'введенные данные.'
+      ParentColor = False
+    end
+  end
+end

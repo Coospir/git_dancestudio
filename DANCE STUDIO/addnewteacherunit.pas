@@ -6,7 +6,8 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  ExtCtrls, MaskEdit, Buttons;
+  ExtCtrls, MaskEdit, Buttons, XMLRead, XMLWrite,
+  DOM;
 
 type
 
@@ -29,6 +30,7 @@ type
     telNumberNewTeacher: TMaskEdit;
     nameNewTeacher: TLabeledEdit;
     procedure FormCreate(Sender: TObject);
+    procedure grpboxNewTeacherClick(Sender: TObject);
     procedure nameNewTeacherKeyPress(Sender: TObject; var Key: char);
     procedure saveInfoNewTeacherBtnClick(Sender: TObject);
   private
@@ -66,7 +68,7 @@ var
 
 
 implementation
-uses MainMenu;
+uses MainMenu, tableTeacherUnit;
 {$R *.lfm}
 { TaddNewTeacherForm }
 
@@ -91,6 +93,11 @@ procedure TaddNewTeacherForm.FormCreate(Sender: TObject);
 begin
   Left:=0;
   Top:=0;
+end;
+
+procedure TaddNewTeacherForm.grpboxNewTeacherClick(Sender: TObject);
+begin
+
 end;
 
 
@@ -139,6 +146,7 @@ begin
     on EConvertError do ShowMessage('Заполнены не все поля!');
   end;
   cpTeacherArray := TeacherArray;
+
 end;
 
 end.

@@ -89,7 +89,7 @@ end;
 procedure TaddNewAbnForm.saveInfoNewClientBtnClick(Sender: TObject);
 begin
   try
-    if (nameNewClient.Text = '') or (ageNewClient.Text = '')  or (emailNewClient.Text = '') or (telNumberNewClient.Text = '') then
+    if (nameNewClient.Text = '') or (ageNewClient.Text = '')  or (emailNewClient.Text = '') or (telNumberNewClient.Text = '') or (grpNewClient.ItemIndex = -1) then
     begin
       ShowMessage('Оставлено пустое поле!');
     end else if(countClients >= maxCountClients) then ShowMessage('Достигнуто максимальное количество записей "Абонементы"!') else

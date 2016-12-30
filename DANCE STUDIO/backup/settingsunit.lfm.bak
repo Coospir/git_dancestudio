@@ -1,0 +1,53 @@
+object settingsForm: TsettingsForm
+  Left = 319
+  Height = 134
+  Top = 225
+  Width = 223
+  BorderStyle = bsDialog
+  Caption = 'Настройки программы'
+  ClientHeight = 134
+  ClientWidth = 223
+  OnCreate = FormCreate
+  LCLVersion = '1.6.2.0'
+  object newColorFormSettings: TLabel
+    Left = 10
+    Height = 17
+    Top = 10
+    Width = 95
+    Caption = 'Выберите тему:'
+    Font.CharSet = RUSSIAN_CHARSET
+    Font.Height = -12
+    Font.Name = 'Century Gothic'
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    ParentColor = False
+    ParentFont = False
+  end
+  object GreenTheme: TButton
+    Left = 10
+    Height = 25
+    Top = 32
+    Width = 104
+    Caption = 'Спокойная тема'
+    OnClick = GreenThemeClick
+    TabOrder = 0
+  end
+  object DarkRedTheme: TButton
+    Left = 10
+    Height = 25
+    Top = 64
+    Width = 104
+    Caption = 'Спелая вишня'
+    OnClick = DarkRedThemeClick
+    TabOrder = 1
+  end
+  object TealTheme: TButton
+    Left = 10
+    Height = 25
+    Top = 96
+    Width = 104
+    Caption = 'Морская волна'
+    OnClick = TealThemeClick
+    TabOrder = 2
+  end
+end
